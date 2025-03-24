@@ -14,3 +14,15 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 ## Race Conditions
 - in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
 - when the number is small the first thread finishes then the second one starts so nothing happend comparing a grand number
+
+## How to Prevent Race Conditions:
+Mutexes (Mutual Exclusions): Lock the shared resource so only one thread can access it at a time.
+
+Semaphores: Control access to shared resources with counters.
+
+Atomic Operations: Ensure that the entire operation is done without interruption.
+
+Thread Synchronization: Use synchronization primitives (like condition variables) to control the execution order.
+
+## What is a mutex in C? (pthread_mutex)
+
