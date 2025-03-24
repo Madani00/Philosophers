@@ -33,6 +33,7 @@ void    exit_on_error(data_t* data, int exit_code)
     exit(exit_code);
 }
 
+
 void    *routine_1(void  *arg)
 {
     data_t *data;
@@ -42,9 +43,9 @@ void    *routine_1(void  *arg)
     i = 0;
     while (i < 1000)
     {
-        pthread_mutex_lock(&data->mutex);
+        pthread_mutex_lock(&data->mutex); // is like protecting it from other threads from executing it
         (data->num)++;
-        pthread_mutex_unlock(&data->mutex);
+        pthread_mutex_unlock(&data->mutex); //
         i++;
     }
     return (NULL);

@@ -13,6 +13,7 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 
 ## Race Conditions
 - in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
+- can only happen on multi-core processor , very unlikely to encounter it on a single-core processor
 - when the number is small the first thread finishes then the second one starts so nothing happend comparing a grand number
 
 ## How to Prevent Race Conditions:
