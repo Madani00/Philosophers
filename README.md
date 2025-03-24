@@ -7,5 +7,10 @@ A common guideline is to have a number of threads roughly equal to the number of
 ## tester
 https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 
-# data races
-when two treaths changes the value of something in memory , the first one reach 10 , and the second was slow so he overwrite the to 3
+## Difference between processes and threads
+**Processes** are isolated and safer but slow to create.
+**Threads** are faster and share data easily but risk crashing the whole process.
+
+## Race Conditions
+- in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
+- when the number is small the first thread finishes then the second one starts so nothing happend comparing a grand number
