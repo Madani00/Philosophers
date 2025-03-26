@@ -41,11 +41,11 @@ void    *routine_1(void  *arg)
 
     data = (data_t *)arg;
     i = 0;
-    while (i < 1000)
+    while (i < 10000000)
     {
         pthread_mutex_lock(&data->mutex); // is like protecting it from other threads from executing it
         (data->num)++;
-        pthread_mutex_unlock(&data->mutex); //
+        pthread_mutex_unlock(&data->mutex); // i noticed slow
         i++;
     }
     return (NULL);
@@ -76,7 +76,5 @@ void    example()
 int main()
 {
     example();
-
-
     return (0);
 }
