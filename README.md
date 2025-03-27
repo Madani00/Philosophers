@@ -32,6 +32,7 @@ Atomic Operations: Ensure that the entire operation is done without interruption
 Thread Synchronization: Use synchronization primitives (like condition variables) to control the execution order.
 
 ## What is a mutex in C? (pthread_mutex)
+A mutex  is a synchronization primitive used to protect shared resources from simultaneous access by multiple threads. It ensures that only one thread can access a critical section at a time, preventing race conditions.
 
 ## Get return value from a thread (pthread_join)
 ```bash
