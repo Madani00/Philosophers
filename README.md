@@ -2,6 +2,7 @@
 
 ## notes
 - CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=thread
+- valgrind --tool=helgrind ./philo 
 - 150 threads is a lot.
 - A common guideline is to have a number of threads roughly equal to the number of CPU cores for CPU-bound tasks. For I/O-bound tasks, you might have more threads, but 150 is still quite high.
 - NORE SURE: everytime philosopher eats you need to update his last meal time , in his campus people say as soon as the philo takes both forks
