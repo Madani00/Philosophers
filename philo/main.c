@@ -27,7 +27,7 @@ void init_forks(t_philo *philo, t_fork *forks, int philo_pos)
 		philo->right = &forks[philo_pos];
 		philo->left = &forks[(philo_pos + 1) % philo_nb];
 	}
-	else
+	else else
 	{
 		philo->right = &forks[(philo_pos + 1) % philo_nb];
 		philo->left = &forks[philo_pos];
