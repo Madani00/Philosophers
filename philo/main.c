@@ -65,6 +65,47 @@ void init_infos(t_info *info)
 	}
 	init_philo(info);
 }
+
+
+void *dinner_simu(void *data)
+{
+	t_philo *philo;
+	philo = (t_philo *)data;
+	
+}
+
+// 0 - if no meals return 0
+// 0.1 - if only one philo do hoc funtion
+// 1 - create all the threads (philos)
+// 2 - create a monitor thread (searching if a philo is dead)
+// 3 - synchronize , make all philos start at the same time
+// 4 - join everything
+void start_eating(t_info *info)
+{
+	int i;
+
+	i = 0;
+	if (info->nmb_philo == 1)
+		// do
+	else if (info->limit_meals == 0)
+		return ; // back to main clean
+	else
+	{
+		while (i++ < info->nmb_philo)
+			pthread_create(&info->philos[i].id, dinner_simu, &info->philos[i], NULL)
+	}
+}
+
+long nmb_philo;
+	long time_die;
+	long time_sleep;
+	long time_eat;
+	long limit_meals; // [5] } flag if -1 then it is not provided
+	long start_simulation; // all philos will have a timestamps starting from this value
+	bool end_simulation; // turn on, when a philo dies or all philos are full
+	t_fork *forks; // array to all forks [f, f ,f ,f ,f]
+	t_philo *philos;
+
 int main(int ac, char **av)
 {
 	t_info infos;
