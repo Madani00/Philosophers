@@ -56,8 +56,10 @@ void init_infos(t_info *info)
 
 	i = 0;
 	info->start_simulation = false;
+	info->all_threads_ready = false; // added its new
 	info->forks = malloc(sizeof(t_fork) * info->nmb_philo);
 	info->philos = malloc(sizeof(t_philo) * info->nmb_philo);
+	pthread_mutex_init(info->mutex, NULL)
 	while (i++ < info->nmb_philo)
 	{
 		pthread_mutex_init(&info->forks[i].fork, NULL);
@@ -66,12 +68,47 @@ void init_infos(t_info *info)
 	init_philo(info);
 }
 
+void wait_all_threads(t_info *info)
+{
+	// if the thread are not ready keep waiting
+	while (!get_bool(&info->mutex, &info->all_threads_ready))
+		;
+}
 
+// 0 - wait all the philos, synchro start
+// 1 - endless loop philo
 void *dinner_simu(void *data)
 {
 	t_philo *philo;
 	philo = (t_philo *)data;
-	
+
+	wait_all_threads(philo->infos);
+	return (NULL);
+}
+
+void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
+{
+	pthread_mutex_lock(mutex);
+	*dest = value;
+	pthread_mutex_unlock(mutex);
+}
+bool get_bool(pthread_mutex_t *mutex, bool *value)
+{
+	bool res;
+
+	pthread_mutex_lock(mutex);
+	res = *value; // reading safe
+	pthread_mutex_unlock(mutex);
+	return (ret);
+}
+long get_long(pthread_mutex_t *mutex, long *value)
+{
+	long res;
+
+	pthread_mutex_lock(mutex);
+	res = *value; // reading safe
+	pthread_mutex_unlock(mutex);
+	return (ret);
 }
 
 // 0 - if no meals return 0
@@ -94,7 +131,12 @@ void start_eating(t_info *info)
 		while (i++ < info->nmb_philo)
 			pthread_create(&info->philos[i].id, dinner_simu, &info->philos[i], NULL)
 	}
+	// start of simulation (need a function that is gonna give us the actual time)
+	// now all threads are ready
+	set_bool(&info->mutex, &info->all_threads_ready, true);
+
 }
+
 
 long nmb_philo;
 	long time_die;
