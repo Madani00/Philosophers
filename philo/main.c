@@ -138,6 +138,7 @@ void start_eating(t_info *info)
 }
 
 
+
 long nmb_philo;
 	long time_die;
 	long time_sleep;
