@@ -1,4 +1,30 @@
 #include "philo.h"
+
+int	ft_atoi(const char *str)
+{
+	int	op;
+	int	final;
+
+	op = 1;
+	final = 0;
+	while ((*str == 32) || (*str >= 9 && *str <= 13))
+	{
+		str++;
+	}
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			op *= -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		final = (final * 10) + (*str - '0');
+		str++;
+	}
+	return (final * op);
+}
+
 //           ms   ms  ms
 // ./philo 5 800 200 200
 void check_inputs(t_info *info, char **av)
@@ -137,29 +163,21 @@ void start_eating(t_info *info)
 
 }
 
-
-
-long nmb_philo;
-	long time_die;
-	long time_sleep;
-	long time_eat;
-	long limit_meals; // [5] } flag if -1 then it is not provided
-	long start_simulation; // all philos will have a timestamps starting from this value
-	bool end_simulation; // turn on, when a philo dies or all philos are full
-	t_fork *forks; // array to all forks [f, f ,f ,f ,f]
-	t_philo *philos;
+int check_args(int ac, char **av)
+{
+	if (ac < 5 || ac > 6)
+		return (printf("try this"));
+}
 
 int main(int ac, char **av)
 {
 	t_info infos;
 
-	if (ac == 5 || ac == 6)
-	{
+	if (check_args(ac, av))
+		return (1);
 		check_inputs(&infos, av); // error check, fill infos
 		initiaze_infos(&infos);
 		start_eating(&infos);
 		clean(&infos); // we reach it when : philos full OR 1 philo died
-	}
-	else
-		printf("error");
+
 }
