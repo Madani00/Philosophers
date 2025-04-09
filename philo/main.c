@@ -30,11 +30,9 @@ int	ft_atoi(const char *str)
 void check_inputs(t_info *info, char **av)
 {
 	info->nmb_philo = atoi(av[1]); // atoi make it long
-	info->time_die = atoi(av[2]) * 1000; // or 1e3 (to convert the milisecond to microsend )
-	info->time_sleep = atoi(av[3]) * 1000;
-	info->time_eat = atoi(av[4]) * 1000;
-	if (info->time_die < 60000 || info->time_eat < 60000 || info->time_sleep < 60000)
-		printf("timestamps must be more than 60ms")
+	info->time_die = atoi(av[2]); // atoi(av[2]) * 1000 or 1e3 (to convert the milisecond to microsend )
+	info->time_sleep = atoi(av[3]);
+	info->time_eat = atoi(av[4]);
 	info->limit_meals = -1;
 	if (av[5])
 		info->limit_meals = atoi(av[5]);
@@ -76,7 +74,7 @@ void init_philo(t_info *info)
 	}
 }
 
-void init_infos(t_info *info)
+void initialize(t_info *info)
 {
 	int i;
 
@@ -175,9 +173,9 @@ int main(int ac, char **av)
 
 	if (check_args(ac, av))
 		return (1);
-		check_inputs(&infos, av); // error check, fill infos
-		initiaze_infos(&infos);
-		start_eating(&infos);
-		clean(&infos); // we reach it when : philos full OR 1 philo died
+	check_inputs(&infos, av); // error check, fill infos
+	initialize(&infos);
+	start_eating(&infos);
+	clean(&infos); // we reach it when : philos full OR 1 philo died
 
 }
