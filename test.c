@@ -11,6 +11,7 @@ int ft_strlen(char *str)
 	return (i);
 }
 // 2147483648
+// ifd fd
 int num_length(char *str)
 {
 	int len;
