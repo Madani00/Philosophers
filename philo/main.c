@@ -21,17 +21,18 @@ void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
 {
 	int philo_nb;
 
-	philo_nb = philo->infos->nmb_philo;
+	philo_nb = philo[0].infos.nmb_philo;
 	// deadlock problem here
+
 	if (philo->id % 2 == 0)
 	{
-		philo->right = &forks[philo_pos];
-		philo->left = &forks[(philo_pos + 1) % philo_nb];
+		philo->right_fork = &forks[philo_pos];
+		philo->left_fork = &forks[(philo_pos + 1) % philo_nb];
 	}
-	else else
+	else
 	{
-		philo->right = &forks[(philo_pos + 1) % philo_nb];
-		philo->left = &forks[philo_pos];
+		philo->right_fork = &forks[(philo_pos + 1) % philo_nb];
+		philo->left_fork = &forks[philo_pos];
 	}
 }
 // forks = mutexes
@@ -42,10 +43,10 @@ void init_philo(t_info *info)
 
 	i = 0;
 	while (i++ < info->nmb_philo)
-	{
-		philo = info->philos + i;
+	{//  infos pointer to the address of the single t_info instance.
+		philo[i].infos = info;
 		philo[i].id = i + 1;
-		philo[i].full = 0;
+		philo[i].philo_full = false;
 		philo[i].meals_counter = 0;
 		init_forks(philo, info->forks, i); // i position in the table
 	}
@@ -58,17 +59,15 @@ void initialize(t_info *info)
 	i = 0;
 	// info->start_simulation = false;
 	// info->all_threads_ready = false; // added its new
-	info->forks = malloc(sizeof(pthread_mutex_t) * info->nmb_philo);
+	info->forks = malloc(sizeof(t_info) * info->nmb_philo);
 	info->philos = malloc(sizeof(t_philo) * info->nmb_philo);
-	pthread_mutex_init(info->mutex, NULL);
+	pthread_mutex_init(&info->mutex, NULL);
 	while (i++ < info->nmb_philo)
 	{
 		pthread_mutex_init(&info->forks[i], NULL);
 	}
 	init_philo(info);
 }
-
-
 
 int check_args(int ac, char **av)
 {
