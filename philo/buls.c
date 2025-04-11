@@ -1,6 +1,29 @@
 #include "philo.h"
 
+int	ft_atoi(const char *str)
+{
+	int	op;
+	int	final;
 
+	op = 1;
+	final = 0;
+	while ((*str == 32) || (*str >= 9 && *str <= 13))
+	{
+		str++;
+	}
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			op *= -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		final = (final * 10) + (*str - '0');
+		str++;
+	}
+	return (final * op);
+}
 
 //           ms   ms  ms
 // ./philo 5 800 200 200
@@ -68,7 +91,74 @@ void initialize(t_info *info)
 	init_philo(info);
 }
 
+void wait_all_threads(t_info *info)
+{
+	// if the thread are not ready keep waiting
+	while (!get_bool(&info->mutex, &info->all_threads_ready))
+		;
+}
 
+// 0 - wait all the philos, synchro start
+// 1 - endless loop philo
+void *dinner_simu(void *data)
+{
+	t_philo *philo;
+	philo = (t_philo *)data;
+
+	wait_all_threads(philo->infos);
+	return (NULL);
+}
+
+void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
+{
+	pthread_mutex_lock(mutex);
+	*dest = value;
+	pthread_mutex_unlock(mutex);
+}
+bool get_bool(pthread_mutex_t *mutex, bool *value)
+{
+	bool res;
+
+	pthread_mutex_lock(mutex);
+	res = *value; // reading safe
+	pthread_mutex_unlock(mutex);
+	return (ret);
+}
+long get_long(pthread_mutex_t *mutex, long *value)
+{
+	long res;
+
+	pthread_mutex_lock(mutex);
+	res = *value; // reading safe
+	pthread_mutex_unlock(mutex);
+	return (ret);
+}
+
+// 0 - if no meals return 0
+// 0.1 - if only one philo do hoc funtion
+// 1 - create all the threads (philos)
+// 2 - create a monitor thread (searching if a philo is dead)
+// 3 - synchronize , make all philos start at the same time
+// 4 - join everything
+void start_eating(t_info *info)
+{
+	int i;
+
+	i = 0;
+	if (info->nmb_philo == 1)
+		// do
+	else if (info->limit_meals == 0)
+		return ; // back to main clean
+	else
+	{
+		while (i++ < info->nmb_philo)
+			pthread_create(&info->philos[i].id, dinner_simu, &info->philos[i], NULL)
+	}
+	// start of simulation (need a function that is gonna give us the actual time)
+	// now all threads are ready
+	set_bool(&info->mutex, &info->all_threads_ready, true);
+
+}
 
 int check_args(int ac, char **av)
 {
