@@ -17,7 +17,7 @@ void check_inputs(t_info *info, char **av)
 
 // right fork = philo_id - 1 (philo position in the array) = 4
 // left fork = [philo_position + 1] % philo_nmb = [4 + 1] % 5 = 0
-void init_forks(t_philo *philo, t_fork *forks, int philo_pos)
+void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
 {
 	int philo_nb;
 
@@ -44,10 +44,10 @@ void init_philo(t_info *info)
 	while (i++ < info->nmb_philo)
 	{
 		philo = info->philos + i;
-		philo->id = i + 1;
-		philo->full = false;
-		philo->meals_counter = 0;
-		init_forks(philo, philo->forks, i); // i position in the table
+		philo[i].id = i + 1;
+		philo[i].full = 0;
+		philo[i].meals_counter = 0;
+		init_forks(philo, info->forks, i); // i position in the table
 	}
 }
 
@@ -58,12 +58,12 @@ void initialize(t_info *info)
 	i = 0;
 	// info->start_simulation = false;
 	// info->all_threads_ready = false; // added its new
-	info->forks = malloc(sizeof(t_fork) * info->nmb_philo);
+	info->forks = malloc(sizeof(pthread_mutex_t) * info->nmb_philo);
 	info->philos = malloc(sizeof(t_philo) * info->nmb_philo);
-	pthread_mutex_init(info->mutex, NULL)
+	pthread_mutex_init(info->mutex, NULL);
 	while (i++ < info->nmb_philo)
 	{
-		pthread_mutex_init(&info->forks[i].fork, NULL);
+		pthread_mutex_init(&info->forks[i], NULL);
 	}
 	init_philo(info);
 }

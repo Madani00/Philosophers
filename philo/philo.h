@@ -3,17 +3,18 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdbool.h>
 
 
 typedef struct s_philo
 {
 	int id;
 	long meals_counter;
-	bool full; // if the philo eats all the the meals required]
+	bool philo_full; // if the philo eats all the the meals required]
 	long last_meal_time; // time passed from last meal (long ; bc we are using microsecond)
-	pthread_mutex_t *left_fork; // pointer to left fork
-	pthread_mutex_t *right_fork; // change it to if you want : pthread_mutex_t righ_fork;
-	pthread_t thread_id; // philo is a thread
+	pthread_mutex_t *left_fork; // A pointer to the mutex representing the philosopher's left fork.
+	pthread_mutex_t *right_fork;
+	pthread_t thread_id; // Stores the thread ID of the philosopher
 	struct t_info *infos; // so that a philo can access all the data
 } t_philo;
 
@@ -27,6 +28,7 @@ typedef struct s_info
 	long time_eat;
 	long limit_meals; // [5] } flag if -1 then it is not provided
 	long start_simulation; // all philos will have a timestamps starting from this value
+	//  A flag to signal the termination of the simulation (due to death or all philosophers being full). Using bool (from stdbool.h) is cleaner than using an int for boolean values when available.
 	bool end_simulation; // turn on, when a philo dies or all philos are full
 	bool all_threads_ready; // new u just added it
 	pthread_mutex_t mutex; // avoid races while reading from infos
