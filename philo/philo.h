@@ -1,10 +1,16 @@
+#ifndef PHILO_H
+#define PHILO_H
+
 #include <stdio.h> // printf
 #include <stdlib.h> //malloc
 #include <pthread.h>
 #include <unistd.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <string.h>
 
+// Forward declaration of the t_info struct
+typedef struct s_info t_info;
 
 typedef struct s_philo
 {
@@ -15,7 +21,7 @@ typedef struct s_philo
 	pthread_mutex_t *left_fork; // A pointer to the mutex representing the philosopher's left fork.
 	pthread_mutex_t *right_fork;
 	pthread_t thread_id; // Stores the thread ID of the philosopher
-	struct t_info *infos; // so that a philo can access all the data
+	t_info *infos; // so that a philo can access all the data
 } t_philo;
 
 
@@ -36,6 +42,8 @@ typedef struct s_info
 	t_philo *philos;
 
 } t_info;
+
+#endif
 
 
 
