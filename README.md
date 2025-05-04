@@ -59,3 +59,10 @@ int main() {
 ## idk if i have to check them or NO
 ./philo 4 390 200 200  (if 390 < 200 + 200 propably someone is gonna die)
 arguable depends on campus : everytime philo eats you need to update his last meal time, as soon as he takes both forks
+
+## what is POSIX
+- In one sentence, it is set of standards consisting of libraries, macros, system call, threading functions, io handling functions, system related functions etc. that helps in increasing your code portablity, which will be mostly run in unix, linux environment.
+## Bonus Fact:
+
+- Threads are lighter than processes (faster to create/destroy).
+- Threads share code, data, and files but have independent registers and stacks.

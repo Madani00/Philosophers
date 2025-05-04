@@ -19,6 +19,7 @@ void    example()
     usleep(requested_sleep_time);
     gettimeofday(&end_time, NULL);
     actual_sleep_time = (end_time.tv_sec - start_time.tv_sec) * 1000000 + (end_time.tv_usec - start_time.tv_usec);
+   
 
     printf("Requested Sleep Time: %ld microseconds\n", requested_sleep_time);
     printf("Actual Sleep Time: %ld microseconds\n", actual_sleep_time);

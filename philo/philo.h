@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <string.h>
+#include <sys/time.h>
 
 // Forward declaration of the t_info struct
 typedef struct s_info t_info;
