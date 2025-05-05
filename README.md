@@ -61,7 +61,11 @@ int main() {
 arguable depends on campus : everytime philo eats you need to update his last meal time, as soon as he takes both forks
 
 ## what is POSIX
-- In one sentence, it is set of standards consisting of libraries, macros, system call, threading functions, io handling functions, system related functions etc. that helps in increasing your code portablity, which will be mostly run in unix, linux environment.
+- Unix → The original OS (old operating system).
+- Linux → A free, Unix-like OS, Ubuntu, Fedora .. (not Unix, just was inspired by it).
+- - POSIX → Rules for making OSes behave like Unix (standards consisting of libraries, macros, system call, threading functions).
+- - SUS (Single UNIX Specification) → A strict certification for "real Unix" systems.
+
 ## Bonus Fact:
 
 - Threads are lighter than processes (faster to create/destroy).
