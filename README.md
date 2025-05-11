@@ -17,7 +17,7 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 ## Difference between processes and threads
 **Processes** are isolated and safer but slow to create. (process includes the resources the program needs to run, they are managed by the operation system {exp: processor registers, program counters, stack pointers , memory pages})
 **Threads** are faster and share data easily but risk crashing the whole process.
-- thread : (is a unit of execution within a process), they share memory address space , also {exp: processor registers, program counters, stack pointers , memory pages}
+- thread : (is a unit of execution within a process), they share memory address space , they have same properties as of the process so they are called as light weight processes.  {exp: processor registers.. }
 
 ## how OS run a thread or process on CPU?
 - handled by `context switching`, one process is switched out of CPU so another process can run.
