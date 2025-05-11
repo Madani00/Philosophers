@@ -23,6 +23,12 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 - handled by `context switching`, one process is switched out of CPU so another process can run.
 - OS stored the state of the currect runnig process so it can execute a later point
 - context switching is expensive 
+
+## Similarity between Threads and Processes –
+- Only one thread or process is active at a time
+- Within process both execute sequentiall
+- Both can create children
+
 ## Race Conditions
 - in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
 - can only happen on multi-core processor , very unlikely to encounter it on a single-core processor
