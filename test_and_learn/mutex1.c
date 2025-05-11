@@ -7,13 +7,15 @@
 int counter = 0;             // Shared resource
 pthread_mutex_t lock;        // Mutex variable
 
-void* increment(void* arg) {
-    for (int i = 0; i < 100000; i++) {
+void* increment(void* arg)
+{
+    for (int i = 0; i < 100000; i++)
+    {
         pthread_mutex_lock(&lock);    // Lock before accessing the shared resource, If another thread already holds it, the calling thread waits until it’s released.
         counter++;                    // Critical section
         pthread_mutex_unlock(&lock);  // Unlock after access, allowing other threads to acquire it.
     }
-    return NULL;
+    return (NULL);
 }
 
 int main() {

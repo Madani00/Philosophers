@@ -16,7 +16,7 @@ void    *routine_2(void  *arg)
 
     num = (int *)arg;
     i = 0;
-    while (i < 100000) // data races when we make it bigger nmb
+    while (i < 100000) // data races when we make it bigger nmb 100000
     {
         (*num)++;
         i++;
@@ -95,10 +95,28 @@ void    example_1()
     print_world(NULL);
 }
 
+void *hi()
+{
+    printf("hi first im here\n");
+    sleep(2);
+    printf("last resort\n");
+    return (NULL);
+}
+void mada()
+{
+    pthread_t thr1;
+    pthread_t thr2;
+
+    pthread_create(&thr1, NULL, &hi, NULL);
+    pthread_create(&thr2, NULL, &hi, NULL);
+    pthread_join(thr1, NULL);
+    pthread_join(thr2, NULL);
+
+}
+
 int main()
 {
     example_3();
-
 
     return (0);
 }

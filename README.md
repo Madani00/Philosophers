@@ -15,9 +15,14 @@
 https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 
 ## Difference between processes and threads
-**Processes** are isolated and safer but slow to create.
+**Processes** are isolated and safer but slow to create. (process includes the resources the program needs to run, they are managed by the operation system {exp: processor registers, program counters, stack pointers , memory pages})
 **Threads** are faster and share data easily but risk crashing the whole process.
+- thread : (is a unit of execution within a process), they share memory address space , also {exp: processor registers, program counters, stack pointers , memory pages}
 
+## how OS run a thread or process on CPU?
+- handled by `context switching`, one process is switched out of CPU so another process can run.
+- OS stored the state of the currect runnig process so it can execute a later point
+- context switching is expensive 
 ## Race Conditions
 - in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
 - can only happen on multi-core processor , very unlikely to encounter it on a single-core processor
