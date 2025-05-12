@@ -29,6 +29,9 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 - Within process both execute sequentiall
 - Both can create children
 
+## Types of Threads:
+- 1- User Level thread : 
+- 2- Kernel Level Thread : 
 ## Race Conditions
 - in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
 - can only happen on multi-core processor , very unlikely to encounter it on a single-core processor
@@ -81,3 +84,4 @@ arguable depends on campus : everytime philo eats you need to update his last me
 
 - Threads are lighter than processes (faster to create/destroy).
 - Threads share code, data, and files but have independent registers and stacks.
+- the scheduler may decided to run Thread 2 first even though Thread 1 was created earlier
