@@ -49,26 +49,6 @@ Thread Synchronization: Use synchronization primitives (like condition variables
 ## What is a mutex in C? (pthread_mutex)
 A mutex  is a synchronization primitive used to protect shared resources from simultaneous access by multiple threads. It ensures that only one thread can access a critical section at a time, preventing race conditions.
 
-## Get return value from a thread (pthread_join)
-```bash
-void* increment() {
-	int *res;
-	res = malloc(4);
-	*res = 5;
-    return (void *)res;
-}
-
-int main() {
-    pthread_t t1;
-	int *value;
-	pthread_create(&t1, NULL, increment, NULL);
-
-	pthread_join(t1, (void *)&value);
-
-    printf("the returned value: %d\n", *value);
-    return 0;
-}
-```
 
 ## idk if i have to check them or NO
 ./philo 4 390 200 200  (if 390 < 200 + 200 propably someone is gonna die)
