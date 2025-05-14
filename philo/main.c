@@ -96,12 +96,10 @@ int check_args(int ac, char **av)
 	return (0);
 }
 
-//           ms   ms  ms
-// ./philo 5 800 200 200
 void check_inputs(t_info *info, char **av)
 {
-	info->nmb_philo = ft_atoi(av[1]); // ft_atoi make it long
-	info->time_die = ft_atoi(av[2]); // ft_atoi(av[2]) * 1000 or 1e3 (to convert the milisecond to microsend )
+	info->nmb_philo = ft_atoi(av[1]);
+	info->time_die = ft_atoi(av[2]);
 	info->time_sleep = ft_atoi(av[3]);
 	info->time_eat = ft_atoi(av[4]);
 	info->limit_meals = -1;
@@ -111,11 +109,14 @@ void check_inputs(t_info *info, char **av)
 
 // right fork = philo_id - 1 (philo position in the array) = 4
 // left fork = [philo_position + 1] % philo_nmb = [4 + 1] % 5 = 0
+
+// 1 - // [philo_pos = 0, philo->id = 1]
+// 2 - // [philo_pos = 1, philo->id = 2]
 // void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
 // {
 // 	int philo_nb;
 
-// 	philo_nb = philo[0].infos.nmb_philo;
+// 	philo_nb = philo->infos->nmb_philo;     
 // 	// deadlock problem here
 
 // 	if (philo->id % 2 == 0)
@@ -124,29 +125,64 @@ void check_inputs(t_info *info, char **av)
 // 		philo->left_fork = &forks[(philo_pos + 1) % philo_nb];
 // 	}
 // 	else
-// 	{
-// 		philo->right_fork = &forks[(philo_pos + 1) % philo_nb];
+// 	{					                                        // &forks[1 % 5 = 1] 
+// 		philo->right_fork = &forks[(philo_pos + 1) % philo_nb]; // [f, f ,f ,f ,f] [philo_pos = 0, philo->id = 1]
 // 		philo->left_fork = &forks[philo_pos];
 // 	}
 // }
 // forks = mutexes
-void init_philo(t_info *info)
+// void init_philo(t_info *info)
+// {
+// 	int i;
+// 	t_philo *philo;
+
+// 	philo = info->philos;
+// 	i = 0;
+// 	while (i < info->nmb_philo)
+// 	{
+// 		philo[i].infos = info;
+// 		philo[i].id = i + 1;
+// 		philo[i].philo_full = false;
+// 		philo[i].meals_counter = 0;
+        
+// 		//init_forks(philo, info->forks, i); // i position in the table , [f, f ,f ,f ,f]
+// 		i++;
+// 	}
+// }
+
+// void initialize(t_info *info)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	// info->start_simulation = false;
+// 	// info->all_threads_ready = false; // added its new
+// 	info->forks = malloc(sizeof(pthread_mutex_t) * info->nmb_philo);
+// 	info->philos = malloc(sizeof(t_philo) * info->nmb_philo);
+// 	if (!info->forks || info->philos)
+// 		return ;
+// 	pthread_mutex_init(&info->mutex, NULL);
+// 	while (i < info->nmb_philo)
+// 	{
+// 		pthread_mutex_init(&info->forks[i], NULL);
+// 		i++;
+// 	}
+// 	init_philo(info);
+// }
+
+void init_philo(t_info *info, t_philo *philo)
 {
 	int i;
-	//t_philo *philo;
 
 	i = 0;
 	while (i < info->nmb_philo)
-	{//  infos pointer to the address of the single t_info instance.
-		// philo[i].infos = info;
-		// philo[i].id = i + 1;
-		// philo[i].philo_full = false;
-		// philo[i].meals_counter = 0;
-		info->philos[i].infos = info;
-        info->philos[i].id = i + 1;
-        info->philos[i].philo_full = false;
-        info->philos[i].meals_counter = 0;
-		//init_forks(philo, info->forks, i); // i position in the table
+	{
+		philo[i].infos = info;
+		philo[i].id = i + 1;
+		philo[i].philo_full = false;
+		philo[i].meals_counter = 0;
+        
+		//init_forks(philo, info->forks, i); // i position in the table , [f, f ,f ,f ,f]
 		i++;
 	}
 }
@@ -154,30 +190,33 @@ void init_philo(t_info *info)
 void initialize(t_info *info)
 {
 	int i;
-
+	t_philo *philos;
 	i = 0;
 	// info->start_simulation = false;
 	// info->all_threads_ready = false; // added its new
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->nmb_philo);
-	info->philos = malloc(sizeof(t_philo) * info->nmb_philo);
+	philos = malloc(sizeof(t_philo) * info->nmb_philo);
+	if (!info->forks || philos)
+		return ;
 	pthread_mutex_init(&info->mutex, NULL);
-	while (i++ < info->nmb_philo)
+	while (i < info->nmb_philo)
 	{
 		pthread_mutex_init(&info->forks[i], NULL);
+		i++;
 	}
-	init_philo(info);
+	init_philo(info, philos);
 }
 
 int main(int ac, char **av)
 {
 	t_info infos;
 
+	memset(&infos, 0, sizeof(t_info));
 	if (check_args(ac, av))
 		return (1);
-	check_inputs(&infos, av); // error check, fill infos
+	check_inputs(&infos, av);
 	initialize(&infos);
 }
-
 
 
 
