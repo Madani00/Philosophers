@@ -110,26 +110,31 @@ void check_inputs(t_info *info, char **av)
 // right fork = philo_id - 1 (philo position in the array) = 4
 // left fork = [philo_position + 1] % philo_nmb = [4 + 1] % 5 = 0
 
-// 1 - // [philo_pos = 0, philo->id = 1]
-// 2 - // [philo_pos = 1, philo->id = 2]
-// void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
-// {
-// 	int philo_nb;
 
-// 	philo_nb = philo->infos->nmb_philo;     
-// 	// deadlock problem here
 
-// 	if (philo->id % 2 == 0)
-// 	{
-// 		philo->right_fork = &forks[philo_pos];
-// 		philo->left_fork = &forks[(philo_pos + 1) % philo_nb];
-// 	}
-// 	else
-// 	{					                                        // &forks[1 % 5 = 1] 
-// 		philo->right_fork = &forks[(philo_pos + 1) % philo_nb]; // [f, f ,f ,f ,f] [philo_pos = 0, philo->id = 1]
-// 		philo->left_fork = &forks[philo_pos];
-// 	}
-// }
+// 1 - // [philo_pos = 0, philo->id = 1]  // [ l=(f) , r=(f) ,f ,f ,f]
+// 2 - // [philo_pos = 1, philo->id = 2]  // [ f , r=(f) , l=(f) ,f ,f]
+// 3 - // [philo_pos = 2, philo->id = 3]  // [ f, f , l=(f) , r=(f) ,f]
+// 4 - // [philo_pos = 3, philo->id = 4]  // [ f , f , f , r=(f) , l=(f)]
+// 5 - // [philo_pos = 4, philo->id = 5]  // [ r=(f) , f ,f ,f ,l=(f)]
+void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
+{
+	int philo_nb;
+
+	philo_nb = philo->infos->nmb_philo;     
+	// deadlock problem here
+
+	if (philo->id % 2 == 0)
+	{
+		philo->right_fork = &forks[philo_pos];
+		philo->left_fork = &forks[(philo_pos + 1) % philo_nb];
+	}
+	else
+	{					                                        // &forks[1 % 5 = 1] 
+		philo->right_fork = &forks[(philo_pos + 1) % philo_nb]; // [ (f) , (f) ,f ,f ,f] [philo_pos = 0, philo->id = 1]
+		philo->left_fork = &forks[philo_pos];
+	}
+}
 
 
 void init_philo(t_info *info, t_philo *philo)
@@ -144,7 +149,7 @@ void init_philo(t_info *info, t_philo *philo)
 		philo[i].philo_full = false;
 		philo[i].meals_counter = 0;
         
-		//init_forks(philo, info->forks, i); // i position in the table , [f, f ,f ,f ,f]
+		init_forks(&philo[i], info->forks, i); // i position in the table , [f, f ,f ,f ,f]
 		i++;
 	}
 }
@@ -154,7 +159,7 @@ void initialize(t_info *info, t_philo *philos)
 	int i;
 
 	i = 0;
-	// info->start_simulation = 0;
+	// info->start_simulation = 0;h
 	// info->all_threads_ready = false; // added its new
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->nmb_philo);
 	philos = malloc(sizeof(t_philo) * info->nmb_philo);
