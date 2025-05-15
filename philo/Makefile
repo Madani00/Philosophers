@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 RM = rm -f
 MK = make
-SRCS = main.c
+SRCS = main.c check_args.c
 
 OBJS = $(SRCS:.c=.o)
 
