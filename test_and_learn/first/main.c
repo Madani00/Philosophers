@@ -125,6 +125,8 @@ void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
 	philo_nb = philo->infos->nmb_philo;     
 	// deadlock problem here
 
+	// Always pick the lower-numbered fork first
+    //if (philo_pos < (philo_pos + 1) % philo_nb)
 	if (philo->id % 2 == 0)
 	{
 		philo->right_fork = &forks[philo_pos];

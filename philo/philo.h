@@ -26,6 +26,7 @@ typedef struct s_info
 	pthread_mutex_t *forks; // array to all forks [f, f ,f ,f ,f]
 } t_info;
 
+// idea : add the state of a philo, you may want to track the state , thinking , sleeping, for debugging .
 typedef struct s_philo
 {
 	int id;
