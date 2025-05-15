@@ -6,25 +6,12 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:22:35 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 16:25:19 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:36:23 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int check_numeric(int ac, char **av)
-{
-	int i;
-
-	i = 1;
-	while(i < ac)
-	{
-		if (ft_isnum(av[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
 int check_args(int ac, char **av)
 {
 	if (ac < 5 || ac > 6)

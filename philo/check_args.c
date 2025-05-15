@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:32 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 16:34:59 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:36:31 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ int	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+int check_numeric(int ac, char **av)
+{
+	int i;
+
+	i = 1;
+	while(i < ac)
+	{
+		if (ft_isnum(av[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int num_length(char *str)
