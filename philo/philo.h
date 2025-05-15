@@ -19,7 +19,7 @@ typedef struct s_info
 	long time_eat;
 	long limit_meals; // [5] } flag if -1 then it is not provided
 	long start_simulation; // all philos will have a timestamps starting from this value
-	bool end_simulation; // turn on, when a philo dies or all philos are full
+	bool end_simulation; // turn on, when a philo dies or all philos are full MOnitor
 
 	bool all_threads_ready; // new u just added it (It can be used to ensure all philosopher threads are initialized before the simulation begins, potentially preventing race conditions during setup.)
 	pthread_mutex_t mutex; // avoid races while reading from infos

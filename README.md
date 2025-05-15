@@ -72,3 +72,28 @@ arguable depends on campus : everytime philo eats you need to update his last me
 3 190 60 60 . where no philo should die
 3 200 60 60 
 5 800 200 200. No philosopher should die
+
+## start simulation
+
+
+
+#### **b. Synchronize Threads**
+Ensure all threads are ready before starting the simulation. You can use a barrier or a shared flag (`all_threads_ready`) to synchronize.
+
+#### **c. Monitor Philosopher States**
+Create a monitoring thread to check if any philosopher has died or if all have eaten the required number of meals. This thread will set `end_simulation` to `true` when the simulation should stop.
+
+#### **d. Join Threads**
+After the simulation ends, join all philosopher threads to ensure proper cleanup.
+
+
+```
+
+---
+
+### **5. Next Steps**
+1. Implement the philosopher routine (`philosopher_routine`) to handle the "thinking," "eating," and "sleeping" states.
+2. Add a monitoring thread to check for starvation or completion.
+3. Test your program with different numbers of philosophers and meal limits to ensure correctness and avoid deadlocks.
+
+Let me know if you need help with any specific part!

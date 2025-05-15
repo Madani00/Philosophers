@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
+/*   Updated: 2025/05/15 16:18:12 by eamchart         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int ft_strlen(char *str)
@@ -228,8 +240,8 @@ void start_eating(t_philo *philos)
 
 	i = 0;
 	
-		while (i++ < philos->infos->nmb_philo)
-			pthread_create(&philos[i].id, NULL, dinner_simu, &philos[i]);
+	while (i++ < philos->infos->nmb_philo)
+		pthread_create(&philos[i].thread_id, NULL, dinner_simu, &philos[i]);
 	
 	// start of simulation (need a function that is gonna give us the actual time)
 	// now all threads are ready
