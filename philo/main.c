@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 16:22:20 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:32:07 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,69 +79,69 @@ void initialize(t_info *info, t_philo *philos)
 	init_philo(info, philos);
 }
 
-void wait_all_threads(t_info *info)
-{
-	// if the thread are not ready keep waiting
-	while (!get_bool(&info->mutex, &info->all_threads_ready))
-		;
-}
+// void wait_all_threads(t_info *info)
+// {
+// 	// if the thread are not ready keep waiting
+// 	while (!get_bool(&info->mutex, &info->all_threads_ready))
+// 		;
+// }
 
-// 0 - wait all the philos, synchro start
-// 1 - endless loop philo
-void *dinner_simu(void *data)
-{
-	t_philo *philo;
-	philo = (t_philo *)data;
+// // 0 - wait all the philos, synchro start
+// // 1 - endless loop philo
+// void *dinner_simu(void *data)
+// {
+// 	t_philo *philo;
+// 	philo = (t_philo *)data;
 
-	wait_all_threads(philo->infos);
-	return (NULL);
-}
+// 	wait_all_threads(philo->infos);
+// 	return (NULL);
+// }
 
-void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
-{
-	pthread_mutex_lock(mutex);
-	*dest = value;
-	pthread_mutex_unlock(mutex);
-}
-bool get_bool(pthread_mutex_t *mutex, bool *value)
-{
-	bool res;
+// void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
+// {
+// 	pthread_mutex_lock(mutex);
+// 	*dest = value;
+// 	pthread_mutex_unlock(mutex);
+// }
+// bool get_bool(pthread_mutex_t *mutex, bool *value)
+// {
+// 	bool res;
 
-	pthread_mutex_lock(mutex);
-	res = *value; // reading safe
-	pthread_mutex_unlock(mutex);
-	return (ret);
-}
-long get_long(pthread_mutex_t *mutex, long *value)
-{
-	long res;
+// 	pthread_mutex_lock(mutex);
+// 	res = *value; // reading safe
+// 	pthread_mutex_unlock(mutex);
+// 	return (ret);
+// }
+// long get_long(pthread_mutex_t *mutex, long *value)
+// {
+// 	long res;
 
-	pthread_mutex_lock(mutex);
-	res = *value; // reading safe
-	pthread_mutex_unlock(mutex);
-	return (ret);
-}
+// 	pthread_mutex_lock(mutex);
+// 	res = *value; // reading safe
+// 	pthread_mutex_unlock(mutex);
+// 	return (ret);
+// }
 
-// 0 - if no meals return 0
-// 0.1 - if only one philo do hoc funtion
-// 1 - create all the threads (philos)
-// 2 - create a monitor thread (searching if a philo is dead)
-// 3 - synchronize , make all philos start at the same time
-// 4 - join everything
-void start_eating(t_philo *philos)
-{
-	int i;
+// // 0 - if no meals return 0
+// // 0.1 - if only one philo do hoc funtion
+// // 1 - create all the threads (philos)
+// // 2 - create a monitor thread (searching if a philo is dead)
+// // 3 - synchronize , make all philos start at the same time
+// // 4 - join everything
+// void start_eating(t_philo *philos)
+// {
+// 	int i;
 
-	i = 0;
+// 	i = 0;
 	
-	while (i++ < philos->infos->nmb_philo)
-		pthread_create(&philos[i].thread_id, NULL, dinner_simu, &philos[i]);
+// 	while (i++ < philos->infos->nmb_philo)
+// 		pthread_create(&philos[i].thread_id, NULL, dinner_simu, &philos[i]);
 	
-	// start of simulation (need a function that is gonna give us the actual time)
-	// now all threads are ready
-	set_bool(&info->mutex, &info->all_threads_ready, true);
+// 	// start of simulation (need a function that is gonna give us the actual time)
+// 	// now all threads are ready
+// 	set_bool(&info->mutex, &info->all_threads_ready, true);
 
-}
+// }
 
 int main(int ac, char **av)
 {
@@ -149,12 +149,11 @@ int main(int ac, char **av)
 	t_philo philos;
 
 	memset(&infos, 0, sizeof(t_info));
-
 	if (check_args(ac, av))
 		return (1);
 	check_inputs(&infos, av);
 	initialize(&infos, &philos);
-	start_eating(&philos);
+	//start_eating(&philos);
 }
 
 

@@ -6,13 +6,13 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:32 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 16:21:30 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:34:59 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int i;
 
@@ -34,12 +34,6 @@ int num_length(char *str)
 	if (strncmp(str, "2147483648", 10) >= 0)
 		return (1);
 	return (0);
-
-}
-
-int is_space(char *str)
-{
-	return ((*str == 32) || (*str >= 9 && *str <= 13));
 }
 
 int	ft_isnum(char *str)
@@ -47,8 +41,6 @@ int	ft_isnum(char *str)
 	int	i;
 
 	i = 0;
-	while (is_space(str))
-		str++;
 	if (str[i] == '+')
 		i++;
 	if (num_length(&str[i]))

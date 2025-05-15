@@ -39,6 +39,14 @@ typedef struct s_philo
 	t_info *infos; // so that a philo can access all the data
 } t_philo;
 
+int	ft_strlen(char *str);
+long	ft_atoi(const char *str);
+int	ft_isnum(char *str);
+int is_space(char *str);
+int num_length(char *str);
+int check_args(int ac, char **av);
+void check_inputs(t_info *info, char **av);
+int check_numeric(int ac, char **av);
 
 
 
