@@ -112,30 +112,31 @@ void check_inputs(t_info *info, char **av)
 
 // 1 - // [philo_pos = 0, philo->id = 1]
 // 2 - // [philo_pos = 1, philo->id = 2]
-// void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
-// {
-// 	int philo_nb;
+void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
+{
+	int philo_nb;
 
-// 	philo_nb = philo->infos->nmb_philo;     
-// 	// deadlock problem here
+	philo_nb = philo->infos->nmb_philo;     
+	// deadlock problem here
 
-// 	if (philo->id % 2 == 0)
-// 	{
-// 		philo->right_fork = &forks[philo_pos];
-// 		philo->left_fork = &forks[(philo_pos + 1) % philo_nb];
-// 	}
-// 	else
-// 	{					                                        // &forks[1 % 5 = 1] 
-// 		philo->right_fork = &forks[(philo_pos + 1) % philo_nb]; // [f, f ,f ,f ,f] [philo_pos = 0, philo->id = 1]
-// 		philo->left_fork = &forks[philo_pos];
-// 	}
-// }
+	if (philo->id % 2 == 0)
+	{
+		philo->right_fork = &forks[philo_pos];
+		philo->left_fork = &forks[(philo_pos + 1) % philo_nb];
+	}
+	else
+	{					                                        // &forks[1 % 5 = 1] 
+		philo->right_fork = &forks[(philo_pos + 1) % philo_nb]; // [f, f ,f ,f ,f] [philo_pos = 0, philo->id = 1]
+		philo->left_fork = &forks[philo_pos];
+	}
+}
 
-
-void init_philo(t_info *info, t_philo *philo)
+void init_philo(t_info *info)
 {
 	int i;
+	t_philo *philo;
 
+	philo = info->philos;
 	i = 0;
 	while (i < info->nmb_philo)
 	{
@@ -149,16 +150,16 @@ void init_philo(t_info *info, t_philo *philo)
 	}
 }
 
-void initialize(t_info *info, t_philo *philos)
+void initialize(t_info *info)
 {
 	int i;
 
 	i = 0;
-	// info->start_simulation = 0;
+	// info->start_simulation = false;
 	// info->all_threads_ready = false; // added its new
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->nmb_philo);
-	philos = malloc(sizeof(t_philo) * info->nmb_philo);
-	if (!info->forks || philos)
+	info->philos = malloc(sizeof(t_philo) * info->nmb_philo);
+	if (!info->forks || info->philos)
 		return ;
 	pthread_mutex_init(&info->mutex, NULL);
 	while (i < info->nmb_philo)
@@ -166,27 +167,18 @@ void initialize(t_info *info, t_philo *philos)
 		pthread_mutex_init(&info->forks[i], NULL);
 		i++;
 	}
-	init_philo(info, philos);
+	init_philo(info);
 }
+
 
 int main(int ac, char **av)
 {
 	t_info infos;
-	t_philo philos;
 
 	memset(&infos, 0, sizeof(t_info));
-
 	if (check_args(ac, av))
 		return (1);
 	check_inputs(&infos, av);
-	initialize(&infos, &philos);
+	initialize(&infos);
 }
-
-
-
-
-
-
-
-
 

@@ -3,7 +3,6 @@
 ## notes
 - CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=thread
 - valgrind --tool=helgrind ./philo
-- 150 threads is a lot.
 - A common guideline is to have a number of threads roughly equal to the number of CPU cores for CPU-bound tasks. For I/O-bound tasks, you might have more threads, but 150 is still quite high.
 - NORE SURE: everytime philosopher eats you need to update his last meal time , in his campus people say as soon as the philo takes both forks
 
@@ -65,3 +64,11 @@ arguable depends on campus : everytime philo eats you need to update his last me
 - Threads are lighter than processes (faster to create/destroy).
 - Threads share code, data, and files but have independent registers and stacks.
 - the scheduler may decided to run Thread 2 first even though Thread 1 was created earlier
+
+## tests to handle
+3 600 200 100
+200 120 60 60
+199 180 60 60
+3 190 60 60 . where no philo should die
+3 200 60 60 
+5 800 200 200. No philosopher should die
