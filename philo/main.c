@@ -123,15 +123,14 @@ void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
 
 	philo_nb = philo->infos->nmb_philo;     
 	// deadlock problem here
-
 	if (philo->id % 2 == 0)
 	{
 		philo->right_fork = &forks[philo_pos];
 		philo->left_fork = &forks[(philo_pos + 1) % philo_nb];
 	}
 	else
-	{					                                        // &forks[1 % 5 = 1] 
-		philo->right_fork = &forks[(philo_pos + 1) % philo_nb]; // [ (f) , (f) ,f ,f ,f] [philo_pos = 0, philo->id = 1]
+	{					                                       
+		philo->right_fork = &forks[(philo_pos + 1) % philo_nb];
 		philo->left_fork = &forks[philo_pos];
 	}
 }
