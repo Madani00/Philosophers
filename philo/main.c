@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 16:19:11 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:20:36 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int check_numeric(int ac, char **av)
 	i = 1;
 	while(i < ac)
 	{
-		if (ft_isnum(av[i])) // ft_atoi(av[i]) <= 0  redundent idiot
+		if (ft_isnum(av[i]))
 			return (1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:32 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 16:18:55 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:21:30 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int ft_strlen(char *str)
 		i++;
 	return (i);
 }
-// 2147483648
-// ifd fd
+
 int num_length(char *str)
 {
 	int len;
@@ -48,7 +47,7 @@ int	ft_isnum(char *str)
 	int	i;
 
 	i = 0;
-	while (is_space(str)) // not important
+	while (is_space(str))
 		str++;
 	if (str[i] == '+')
 		i++;

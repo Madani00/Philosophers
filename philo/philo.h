@@ -40,4 +40,6 @@ typedef struct s_philo
 } t_philo;
 
 
+
+
 #endif
