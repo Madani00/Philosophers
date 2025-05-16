@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 17:01:42 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/16 09:53:52 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
 {
 	int philo_nb;
 
-	philo_nb = philo->infos->nmb_philo;     
+	philo_nb = philo->infos->nmb_philo;   
 	// deadlock problem here
 	if (philo->id % 2 == 0)
 	{
@@ -53,7 +53,6 @@ void init_philo(t_info *info, t_philo *philo)
 		philo[i].id = i + 1;
 		philo[i].philo_full = false;
 		philo[i].meals_counter = 0;
-        
 		init_forks(&philo[i], info->forks, i); // i position in the table , [f, f ,f ,f ,f]
 		i++;
 	}
@@ -68,7 +67,7 @@ void initialize(t_info *info, t_philo *philos)
 	// info->all_threads_ready = false; // added its new
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->nmb_philo);
 	philos = malloc(sizeof(t_philo) * info->nmb_philo);
-	if (!info->forks || philos)
+	if (!info->forks || !philos)
 		return ;
 	pthread_mutex_init(&info->mutex, NULL);
 	while (i < info->nmb_philo)
@@ -78,6 +77,39 @@ void initialize(t_info *info, t_philo *philos)
 	}
 	init_philo(info, philos);
 }
+bool get_bool(pthread_mutex_t *mutex, bool *value)
+{
+	bool res;
+
+	pthread_mutex_lock(mutex);
+	res = *value; // reading safe
+	pthread_mutex_unlock(mutex);
+	return (res);
+}
+
+
+long	current_time(void)
+{
+	struct timeval	s_time;
+
+	gettimeofday(&s_time, NULL);
+	return (s_time.tv_sec * 1000 + s_time.tv_usec / 1000);
+}
+// void *dinner_simu(void *data)
+// {
+// 	t_info *info;
+// 	info = (t_info *)data;
+	
+// 	pthread_mutex_lock(&info->mutex);
+// 	printf("philo is eating\n");
+// 	usleep(1000 * info->time_eat);
+// 	printf("philo is thinking\n");
+// 	usleep(100000);
+// 	printf("philo is sleeping\n");
+// 	usleep(1000 * info->time_sleep);
+// 	pthread_mutex_unlock(&info->mutex);
+// 	return (NULL);
+// }
 
 void wait_all_threads(t_info *info)
 {
@@ -103,15 +135,7 @@ void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
 	*dest = value;
 	pthread_mutex_unlock(mutex);
 }
-bool get_bool(pthread_mutex_t *mutex, bool *value)
-{
-	bool res;
 
-	pthread_mutex_lock(mutex);
-	res = *value; // reading safe
-	pthread_mutex_unlock(mutex);
-	return (res);
-}
 long get_long(pthread_mutex_t *mutex, long *value)
 {
 	long res;
@@ -128,16 +152,20 @@ long get_long(pthread_mutex_t *mutex, long *value)
 // 2 - create a monitor thread (searching if a philo is dead)
 // 3 - synchronize , make all philos start at the same time
 // 4 - join everything
-void start_eating(t_philo *philos)
+void start_eating(t_philo *philos, t_info *info)
 {
 	int i;
-
+	
 	i = 0;
-	while (i++ < philos->infos->nmb_philo)
+	while (i < info->nmb_philo)
+	{
 		pthread_create(&philos[i].thread_id, NULL, dinner_simu, &philos[i]);
+		
+		i++;
+	}
 	// start of simulation (need a function that is gonna give us the actual time)
 	// now all threads are ready
-	set_bool(&philos->infos->mutex, &philos->infos->all_threads_ready, true);
+	set_bool(&info->mutex, &info->all_threads_ready, true);
 }
 
 int main(int ac, char **av)
@@ -150,14 +178,8 @@ int main(int ac, char **av)
 		return (1);
 	check_inputs(&infos, av);
 	initialize(&infos, &philos);
-	start_eating(&philos);
+	start_eating(&philos, &infos);
+	printf("%ld\n", current_time());
 }
-
-
-
-
-
-
-
 
 
