@@ -23,6 +23,10 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 - OS stored the state of the currect runnig process so it can execute a later point
 - context switching is expensive 
 
+## Concurrent Execution
+
+Threads don't necessarily run "at the same time" in the strictest sense (unless you have multiple CPU cores). Instead, the OS scheduler rapidly switches between them, giving the illusion of parallel execution.
+
 ## Similarity between Threads and Processes –
 - Only one thread or process is active at a time
 - Within process both execute sequentiall
@@ -31,6 +35,12 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 ## Types of Threads:
 - 1- User Level thread : 
 - 2- Kernel Level Thread : 
+
+## concurrency & Parallelism:
+
+- **concurrency** (Threading): CPU switches between different threads really fast, giving a falsehood of concurrency. Keypoint: only one thread is running at any given time. When one thread is running, others are blocked. You might think, how is this any useful than just running procedurally? Well, think of it as a priority queue. Threads can be scheduled. CPU scheduler can give each thread a certain amount of time to run, pause them, pass data to other threads, then give them different priorities to run at a later time. It's a must for not instant running processes that interact with each other. It's used in servers extensively: thousands of clients can request something at the same time, then getting what they requested at a later time (If done procedurally, only one client can be served at a time). Philosophy: do different things together. It doesn't reduce the total time (moot point for server, because one client doesn't care other clients' total requests).
+- **Parallelism**: threads are running parallel, usually in different CPU core, true concurrency. Keypoint: multiple threads are running at any given time. It's useful for heavy computations, super long running processes. Same thing with a fleet of single core machines, split data into sections for each machine to compute, pool them together at the end. Different machines/cores are hard to interact with each other. Philosophy: do one thing in less time.
+
 ## Race Conditions
 - in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
 - can only happen on multi-core processor , very unlikely to encounter it on a single-core processor
