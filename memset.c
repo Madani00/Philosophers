@@ -1,5 +1,3 @@
-
-
 #include <stdio.h> // printf
 #include <stdlib.h> //malloc
 #include <pthread.h>

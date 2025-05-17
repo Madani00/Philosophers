@@ -97,3 +97,16 @@ After the simulation ends, join all philosopher threads to ensure proper cleanup
 3. Test your program with different numbers of philosophers and meal limits to ensure correctness and avoid deadlocks.
 
 Let me know if you need help with any specific part!
+
+
+
+
+
+
+### **Explanation**
+- In the original code, `philos` in `main` is a local variable, and passing it to `initialize` does not allow the function to modify the pointer itself (only the memory it points to).
+- By passing `t_philo **philos` to `initialize`, you allow the function to modify the pointer in `main` by dereferencing it (`*philos`).
+- This ensures that the memory allocated for `philos` is correctly accessible in `main` and other functions.
+
+## understand
+- pthread_create(&thr1, NULL, &hi, NULL);       // every thread we call have its own 'hi' function 
