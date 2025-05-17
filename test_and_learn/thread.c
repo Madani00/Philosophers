@@ -102,21 +102,40 @@ void *hi()
     printf("last resort\n");
     return (NULL);
 }
-void mada()
+
+char buffer[100];
+
+void *write_a() {
+    for (int i = 0; i < 50; i++) {
+        buffer[i] = 'A';
+        //usleep(1000);
+    }
+    return NULL;
+}
+
+void *write_b() {
+    for (int i = 0; i < 50; i++) {
+        buffer[i] = 'B';
+        //usleep(1000);
+    }
+    return NULL;
+}
+void same_buffer()
 {
     pthread_t thr1;
     pthread_t thr2;
 
-    pthread_create(&thr1, NULL, &hi, NULL);
-    pthread_create(&thr2, NULL, &hi, NULL);
+    pthread_create(&thr1, NULL, write_a, NULL);
+    pthread_create(&thr2, NULL, write_b, NULL);
     pthread_join(thr1, NULL);
     pthread_join(thr2, NULL);
+    printf("%s\n", buffer);
 
 }
 
 int main()
 {
-    example_3();
+    same_buffer();
 
     return (0);
 }
