@@ -49,5 +49,4 @@ void check_inputs(t_info *info, char **av);
 int check_numeric(int ac, char **av);
 
 
-
 #endif
