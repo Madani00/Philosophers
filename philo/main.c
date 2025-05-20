@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/20 10:59:47 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:38:41 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,17 +206,18 @@ void *dinner_simu(void *data)
 		safe_increment(&philo->infos->mutex, &philo->meals_counter);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		if (!philo->infos->end_simulation)
-			return (NULL);
+
 		// if (philo->infos->end_simulation)
 		// 	return (NULL);
 		// if (philo->meals_counter >= philo->infos->limit_meals)
 		// 	return (NULL);
 		// if (check_death(philo))
 		// 	return (NULL);
+		if (get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
+			return (NULL);
 		print_state(philo, "is sleeping");
 		usleep(philo->infos->time_sleep);
-		print_state(philo, "is thinking");	
+		print_state(philo, "is thinking");
 	}
 	return (NULL);
 }
@@ -335,12 +336,12 @@ void *monitor(void *data)
 		}
         if (all_full)
         {
-            pthread_mutex_lock(&philo->infos->mutex);
+            //pthread_mutex_lock(&philo->infos->mutex);
             philo->infos->end_simulation = true;
-            pthread_mutex_unlock(&philo->infos->mutex);
+            //pthread_mutex_unlock(&philo->infos->mutex);
             return (NULL);
         }
-        //usleep(1000); // Check every 1ms
+        usleep(1000); // Check every 1ms
     }
 }
 
