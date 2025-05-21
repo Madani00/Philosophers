@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/20 17:58:02 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:28:36 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,13 @@ void wait_all_threads(t_info *info)
 		;
 }
 
+void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
+{
+	pthread_mutex_lock(mutex);
+	*dest = value;
+	pthread_mutex_unlock(mutex);
+}
+
 void print_state(t_philo *philo, char *state)
 {
 	long time;
@@ -126,7 +133,7 @@ void print_state(t_philo *philo, char *state)
 	if (!philo->infos->end_simulation)
 	{
 		pthread_mutex_lock(&philo->infos->mutex);
-		printf("(%ld)  %d %s\n", time, philo->id, state);
+		printf("%ld %d %s\n", time, philo->id, state);
 		pthread_mutex_unlock(&philo->infos->mutex);
 	}
 	
@@ -154,64 +161,34 @@ void safe_increment(pthread_mutex_t *mutex, long *dest)
 	*dest += 1;
 	pthread_mutex_unlock(mutex);
 }
-// int check_death(t_philo *philo)
-// {
-// 	// long last_time;
-// 	// long cur_time;
 
-// 	// cur_time = current_time();
-// 	// last_time = cur_time - philo->last_meal_time;
-// 	if (philo->infos->time_eat >= philo->infos->time_die)
-// 	{
-// 		pthread_mutex_lock(&philo->infos->mutex);
-// 		printf("%d\n", philo->infos->end_simulation);
-// 		philo->infos->end_simulation = true;
-// 		pthread_mutex_unlock(&philo->infos->mutex);
-// 		print_state(philo, "is died");
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-// void *check_death(void *arg)
-// {
-// 	t_philo *philo;
-
-// 	philo =  (t_philo *)arg;
-// 	if (philo->infos->time_eat >= philo->infos->time_die)
-// 	{
-// 		pthread_mutex_lock(&philo->infos->mutex);
-// 		philo->infos->end_simulation = true;
-// 		pthread_mutex_unlock(&philo->infos->mutex);
-// 		print_state(philo, "is died");
-// 	}
-// 	return (NULL);
-// }
 // // 4 390 200 200  (if 390 < 200 + 200)
 // // if a philos doesn’t start eating ’time_to_die’ milliseconds 
 // // after starting his last meal or the beginning of the simulation, it dies
-void *dinner_simu(void *data)
+void *thread_routine(void *data)
 {
 	t_philo *philo;
 	philo = (t_philo *)data;
 	wait_all_threads(philo->infos);
 	while (!philo->infos->end_simulation) // !monitor_state(philo)
 	{
-		if (philo->id % 2 == 0)
-			usleep(philo->infos->time_eat / 10);
 		pthread_mutex_lock(philo->left_fork);
 		print_state(philo, "has taken a fork");
 		pthread_mutex_lock(philo->right_fork);
 		print_state(philo, "has taken a fork");
 		print_state(philo, "is eating");
 		philo->last_meal_time = current_time(); 
-		usleep(philo->infos->time_eat);
-		safe_increment(&philo->infos->mutex, &philo->meals_counter);
+		philo->meals_counter++;
+		if (!philo->infos->end_simulation)
+			usleep(philo->infos->time_eat);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 		print_state(philo, "is sleeping");
-		usleep(philo->infos->time_sleep);
+		if (!philo->infos->end_simulation)
+			usleep(philo->infos->time_sleep);
 		print_state(philo, "is thinking");
+		if (philo->id % 2 != 0)
+			usleep(philo->infos->time_eat * 0.5);
 	}
 	return (NULL);
 }
@@ -224,7 +201,7 @@ bool check_death(t_philo *philo)
     current = current_time();
     pthread_mutex_lock(&philo->infos->mutex);
     time_since_last_meal = current - philo->last_meal_time;
-    if (time_since_last_meal >= philo->infos->time_die && !philo->philo_full)
+    if (time_since_last_meal >= philo->infos->time_die) //&& !philo->philo_full
     {
         philo->infos->end_simulation = true;
         printf("(%ld) %d died\n", current - philo->infos->start_simulation, philo->id);
@@ -235,7 +212,7 @@ bool check_death(t_philo *philo)
     return (false);
 }
 //  ./philo 5 300 100 100 1
-void *monitor(void *data)
+void *monitor_routine(void *data)
 {
     t_philo *philo = (t_philo *)data;
     int i;
@@ -244,35 +221,28 @@ void *monitor(void *data)
     while (1)
     {
         i = 0;
-        all_full = false;
+        all_full = true;
 		while (i < philo->infos->nmb_philo)
 		{
-			if (philo[i].meals_counter == philo->infos->limit_meals)
+			if (philo[i].meals_counter < philo->infos->limit_meals)
 			{
-				all_full = true;
+				all_full = false;
 				break;
 			}
+			// if (check_death(&philo[i]))
+			// 	return (NULL);
 			i++;
 		}
         if (all_full)
         {
-            pthread_mutex_lock(&philo->infos->mutex);
-            philo->infos->end_simulation = true;
-            pthread_mutex_unlock(&philo->infos->mutex);
+			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
             return (NULL);
         }
-        usleep(1000); // Check every 1ms
+        // usleep(1000); // Check every 1ms
     }
 }
 
 
-
-void set_bool(pthread_mutex_t *mutex, bool *dest, bool value)
-{
-	pthread_mutex_lock(mutex);
-	*dest = value;
-	pthread_mutex_unlock(mutex);
-}
 
 long get_long(pthread_mutex_t *mutex, long *value)
 {
@@ -288,21 +258,21 @@ long get_long(pthread_mutex_t *mutex, long *value)
 int start_eating(t_philo *philos, t_info *info)
 {
 	int i;
-	pthread_t mr;
+	pthread_t monitor;
 	i = 0;
 
 	info->start_simulation = current_time();
 	while (i < info->nmb_philo)
 	{
-		if (pthread_create(&philos[i].thread_id, NULL, dinner_simu, &philos[i]))
+		if (pthread_create(&philos[i].thread_id, NULL, thread_routine, &philos[i]))
 			return (1);
 		i++;
 	}
 	// start of simulation (need a function that is gonna give us the actual time)
 	// now all threads are ready 
+	pthread_create(&monitor, NULL, monitor_routine, philos);
 	set_bool(&info->mutex, &info->all_threads_ready, true);
-	pthread_create(&mr, NULL, monitor, philos);
-	pthread_join(mr, NULL);
+	pthread_join(monitor, NULL);
 	return (0);
 }
 
