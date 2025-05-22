@@ -26,7 +26,8 @@ typedef struct s_info
 	pthread_mutex_t *forks; 
 } t_info;
 
-// idea : add the state of a philo, you may want to track the state , thinking , sleeping, for debugging.
+// idea 1 : add the state of a philo, you may want to track the state , thinking , sleeping, for debugging.
+// int stop;  // 0 if none philosopher is dead, 1 if a philosopher is dead, 2 if all philosophers ate m_eat times
 typedef struct s_philo
 {
 	int id;

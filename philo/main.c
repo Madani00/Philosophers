@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/21 12:28:36 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:01:30 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,15 +128,13 @@ void print_state(t_philo *philo, char *state)
 {
 	long time;
 
-	time = current_time() - philo->infos->start_simulation;
-	
 	if (!philo->infos->end_simulation)
 	{
 		pthread_mutex_lock(&philo->infos->mutex);
+		time = current_time() - philo->infos->start_simulation;
 		printf("%ld %d %s\n", time, philo->id, state);
 		pthread_mutex_unlock(&philo->infos->mutex);
 	}
-	
 }
 // info->limit_meals 5
 // philo->meals_counter 5
@@ -162,15 +160,27 @@ void safe_increment(pthread_mutex_t *mutex, long *dest)
 	pthread_mutex_unlock(mutex);
 }
 
-// // 4 390 200 200  (if 390 < 200 + 200)
-// // if a philos doesn’t start eating ’time_to_die’ milliseconds 
-// // after starting his last meal or the beginning of the simulation, it dies
-void *thread_routine(void *data)
+void thinking(t_philo *philo)
 {
-	t_philo *philo;
-	philo = (t_philo *)data;
-	wait_all_threads(philo->infos);
-	while (!philo->infos->end_simulation) // !monitor_state(philo)
+	if (!philo->infos->end_simulation)
+	{
+		print_state(philo, "is thinking");
+		if (philo->id % 2 != 0)
+			usleep(philo->infos->time_eat * 0.5);
+	}
+}
+void sleeping(t_philo *philo)
+{
+	if (!philo->infos->end_simulation)
+	{
+		print_state(philo, "is sleeping");
+		usleep(philo->infos->time_sleep);
+	}
+}
+
+void eating(t_philo *philo)
+{
+	if (!philo->infos->end_simulation)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		print_state(philo, "has taken a fork");
@@ -183,28 +193,67 @@ void *thread_routine(void *data)
 			usleep(philo->infos->time_eat);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		print_state(philo, "is sleeping");
-		if (!philo->infos->end_simulation)
-			usleep(philo->infos->time_sleep);
-		print_state(philo, "is thinking");
-		if (philo->id % 2 != 0)
-			usleep(philo->infos->time_eat * 0.5);
+	}
+	
+}
+// // 4 390 200 200  (if 390 < 200 + 200)
+// // if a philos doesn’t start eating ’time_to_die’ milliseconds 
+// // after starting his last meal or the beginning of the simulation, it dies
+void *thread_routine(void *data)
+{
+	t_philo *philo;
+	philo = (t_philo *)data;
+	//wait_all_threads(philo->infos);
+
+	while (!philo->infos->end_simulation) // !monitor_state(philo)
+	{
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
 	}
 	return (NULL);
 }
 
+// bool check_death(t_philo *philo, pthread_mutex_t mutex_monitor)
+// {
+// 	long current;
+// 	long time_since_last_meal;
+
+//     current = current_time();
+//     pthread_mutex_lock(&mutex_monitor);
+//     time_since_last_meal = current - philo->last_meal_time;
+// 	//printf(" ---philo->last_meal_time : %ld ---\n", philo->last_meal_time);
+// 	//printf(" --- %ld ---\n", time_since_last_meal);
+//     if (time_since_last_meal >= philo->infos->time_die && philo->last_meal_time != 0) //&& !philo->philo_full
+//     {
+// 		printf("im hereeeeeeeeeeeeeeeeeeeeeeeee\n");
+//         philo->infos->end_simulation = true;
+//         printf("(%ld) %d died\n", current - philo->infos->start_simulation, philo->id);
+//         pthread_mutex_unlock(&mutex_monitor);
+//         return (true);
+//     }
+//     pthread_mutex_unlock(&mutex_monitor);
+//     return (false);
+// }
+
+ 
 bool check_death(t_philo *philo)
 {
     long current;
-    long time_since_last_meal;
+    long time_pass;
 
-    current = current_time();
     pthread_mutex_lock(&philo->infos->mutex);
-    time_since_last_meal = current - philo->last_meal_time;
-    if (time_since_last_meal >= philo->infos->time_die) //&& !philo->philo_full
+    current = current_time();
+	// if (philo->last_meal_time == 0)
+    //     time_pass = current - philo->infos->start_simulation;
+    // else
+        time_pass = current - philo->last_meal_time;
+
+    if (time_pass >= philo->infos->time_die)
     {
+		//set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
         philo->infos->end_simulation = true;
-        printf("(%ld) %d died\n", current - philo->infos->start_simulation, philo->id);
+        printf("%ld %d died\n", current - philo->infos->start_simulation, philo->id);
         pthread_mutex_unlock(&philo->infos->mutex);
         return (true);
     }
@@ -212,36 +261,52 @@ bool check_death(t_philo *philo)
     return (false);
 }
 //  ./philo 5 300 100 100 1
+// void *monitor_routine(void *data)
+// {
+//     t_philo *philo = (t_philo *)data;
+//     int i;
+//     bool all_full;
+    
+//     while (1)
+//     {
+//         i = 0;
+//         all_full = true;
+// 		while (i < philo->infos->nmb_philo)
+// 		{
+// 			if (philo[i].meals_counter < philo->infos->limit_meals && philo->infos->limit_meals > 0)
+// 				all_full = false;
+// 			if (check_death(&philo[i]))
+// 				return (NULL);
+// 			i++;
+// 		}
+//         if (all_full && philo->infos->limit_meals > 0)
+//         {
+// 			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
+//             return (NULL);
+//         }
+//         usleep(1000); // Check every 1ms
+//     }
+// }
+
 void *monitor_routine(void *data)
 {
-    t_philo *philo = (t_philo *)data;
+    t_philo *philos = (t_philo *)data;
     int i;
-    bool all_full;
-    
+
+	
     while (1)
     {
+		usleep(philos->infos->time_die + 1);
         i = 0;
-        all_full = true;
-		while (i < philo->infos->nmb_philo)
-		{
-			if (philo[i].meals_counter < philo->infos->limit_meals)
-			{
-				all_full = false;
-				break;
-			}
-			// if (check_death(&philo[i]))
-			// 	return (NULL);
-			i++;
-		}
-        if (all_full)
+        while (i < philos[0].infos->nmb_philo)
         {
-			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
-            return (NULL);
+            if (check_death(&philos[i]))
+                return NULL;
+            i++;
         }
-        // usleep(1000); // Check every 1ms
+        //usleep(1000);
     }
 }
-
 
 
 long get_long(pthread_mutex_t *mutex, long *value)
@@ -261,6 +326,7 @@ int start_eating(t_philo *philos, t_info *info)
 	pthread_t monitor;
 	i = 0;
 
+	
 	info->start_simulation = current_time();
 	while (i < info->nmb_philo)
 	{
@@ -270,8 +336,8 @@ int start_eating(t_philo *philos, t_info *info)
 	}
 	// start of simulation (need a function that is gonna give us the actual time)
 	// now all threads are ready 
+	//set_bool(&info->mutex, &info->all_threads_ready, true);
 	pthread_create(&monitor, NULL, monitor_routine, philos);
-	set_bool(&info->mutex, &info->all_threads_ready, true);
 	pthread_join(monitor, NULL);
 	return (0);
 }
