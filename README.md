@@ -162,16 +162,19 @@ Let me know if you need further clarification or help implementing this!
 - ./philo 4 0 200 200	Invalid argument (zero time).
 - ./philo 4 214748364732 200 200	Invalid argument
 
-- ./philo 3 600 200 100
+- ./philo 3 600 200 100         No one dies.
 - ./philo 200 120 60 60
 - ./philo 199 180 60 60
 - ./philo 4 410 200 200	        No one dies.
 - ./philo 3 190 60 60 .         No one dies.
-- ./philo 5 800 200 200.        No one dies.       (Confirms no deadlocks in multi-philosopher )
+- ./philo 5 800 200 200.        No one dies. 
 - ./philo 4 2147483647 200 200         No one dies.
  
 - ./philo 1 200 200 200	   Philosopher 1 picks one fork and dies after 200ms.
 - ./philo 5 800 200 200 7	  Simulation stops after each philosopher eats 7 times.
-- ./philo 4 310 200 200	     One philosopher dies.
+- ./philo 4 310 200 200	        One philosopher dies.
 - ./philo 4 500 200 2147483647	One philosopher dies after 500 ms.
 - ./philo 4 200 210 200	        One philosopher dies; death must be printed before 210 ms.
+- ./philo 200 122 60 60        should die (mine works great)
+- ./philo 5 800 600 100         should die
+- ./philo 2 600 500 200         should die

@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:32 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/15 16:36:31 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:26:39 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -22,12 +22,12 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int check_numeric(int ac, char **av)
+int	check_numeric(int ac, char **av)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	while(i < ac)
+	while (i < ac)
 	{
 		if (ft_isnum(av[i]))
 			return (1);
@@ -36,9 +36,9 @@ int check_numeric(int ac, char **av)
 	return (0);
 }
 
-int num_length(char *str)
+int	num_length(char *str)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(str);
 	if (len > 10)
@@ -70,7 +70,7 @@ int	ft_isnum(char *str)
 
 long	ft_atoi(const char *str)
 {
-	int	op;
+	int		op;
 	long	final;
 
 	op = 1;
