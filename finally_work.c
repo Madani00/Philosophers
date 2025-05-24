@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/24 15:14:37 by eamchart         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 void clean_up(t_philo *philo, t_info *info)
@@ -202,51 +190,53 @@ bool check_death(t_philo *philo)
     return (false);
 }
 
+// void *monitor_routine(void *data)
+// {
+//     t_philo *philo = (t_philo *)data;
+//     int i;
+//     bool all_full;
+    
+//     while (1)
+//     {
+//         i = 0;
+//         all_full = true;
+// 		while (i < philo->infos->nmb_philo)
+// 		{	
+// 			if (get_long(&philo->infos->mutex, &philo[i].meals_counter) < philo->infos->limit_meals && philo->infos->limit_meals > 0)
+// 				all_full = false;
+// 			// if (check_death(&philo[i]))
+// 			// 	return (NULL);
+// 			i++;
+// 		}
+//         if (all_full && philo->infos->limit_meals > 0)
+//         {
+// 			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
+//             return (NULL);
+//         }
+//         usleep(1000); // Check every 1ms
+//     }
+// }
+
 void *monitor_routine(void *data)
 {
-    t_philo *philo = (t_philo *)data;
+    t_philo *philos = (t_philo *)data;
     int i;
-    bool all_full;
-    
+
+	
     while (1)
     {
-		usleep(philo->infos->time_die + 1);
+		usleep(philos->infos->time_die + 1);
         i = 0;
-        all_full = true;
-		while (i < philo->infos->nmb_philo)
-		{	
-			if (get_long(&philo->infos->mutex, &philo[i].meals_counter) < philo->infos->limit_meals && philo->infos->limit_meals > 0)
-				all_full = false;
-			if (check_death(&philo[i]))
-				return (NULL);
-			i++;
-		}
-        if (all_full && philo->infos->limit_meals > 0)
+        while (i < philos[0].infos->nmb_philo)
         {
-			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
-            return (NULL);
+            if (check_death(&philos[i]))
+                return NULL;
+            i++;
         }
+        //usleep(1000);
     }
 }
 
-// void *monitor_routine(void *data)
-// {
-//     t_philo *philos = (t_philo *)data;
-//     int i;
-
-//     while (1)
-//     {
-// 		usleep(philos->infos->time_die + 1);
-//         i = 0;
-//         while (i < philos[0].infos->nmb_philo)
-//         {
-//             if (check_death(&philos[i]))
-//                 return NULL;
-//             i++;
-//         }
-//         //usleep(1000);
-//     }
-// }
 
 
 int start_eating(t_philo *philos, t_info *info)
@@ -286,5 +276,3 @@ int main(int ac, char **av)
 		return (1);
 	clean_up(philos, &infos);
 }
-
-				

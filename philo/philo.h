@@ -20,8 +20,6 @@ typedef struct s_info
 	long limit_meals;
 	long start_simulation;
 	bool end_simulation;
-
-	bool all_threads_ready;
 	pthread_mutex_t mutex; 
 	pthread_mutex_t *forks; 
 } t_info;
@@ -32,7 +30,6 @@ typedef struct s_philo
 {
 	int id;
 	long meals_counter;
-	bool philo_full;
 	long last_meal_time;
 	pthread_mutex_t *left_fork; 
 	pthread_mutex_t *right_fork;
@@ -40,14 +37,15 @@ typedef struct s_philo
 	t_info *infos;
 } t_philo;
 
-int	ft_strlen(char *str);
+
+int		ft_strlen(char *str);
 long	ft_atoi(const char *str);
-int	ft_isnum(char *str);
-int is_space(char *str);
-int num_length(char *str);
-int check_args(int ac, char **av);
-int check_inputs(t_info *info, char **av);
-int check_numeric(int ac, char **av);
+int		ft_isnum(char *str);
+int		is_space(char *str);
+int		num_length(char *str);
+int		check_args(int ac, char **av);
+int		check_inputs(t_info *info, char **av);
+int		check_numeric(int ac, char **av);
 
 
 #endif

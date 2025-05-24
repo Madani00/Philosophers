@@ -32,3 +32,4 @@ int main()
 
     printf("%d %ld %d %ld %p %p %lu \n", philo.id , philo.meals_counter, philo.philo_full, philo.last_meal_time, philo.left_fork, philo.right_fork, philo.thread_id);
 }
+

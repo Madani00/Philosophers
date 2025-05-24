@@ -6,6 +6,7 @@
 - A common guideline is to have a number of threads roughly equal to the number of CPU cores for CPU-bound tasks. For I/O-bound tasks, you might have more threads, but 150 is still quite high.
 - NORE SURE: everytime philosopher eats you need to update his last meal time , in his campus people say as soon as the philo takes both forks
 
+
 ## some ways to implement you program
 1 - odd sleep (time_to_eat / 2) (you need to make the philos sleep at the start of yr program) (when you have even number of philos 4 , it is easy cause the 1 and 3 eats, 2 and 4 sleeps vice versa)
 2 - odd start taking from right fork, even start taking from left fork (to prevent deadlock )
@@ -27,6 +28,8 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 
 Threads don't necessarily run "at the same time" in the strictest sense (unless you have multiple CPU cores). Instead, the OS scheduler rapidly switches between them, giving the illusion of parallel execution.
 
+
+
 ## Similarity between Threads and Processes –
 - Only one thread or process is active at a time
 - Within process both execute sequentiall
@@ -40,6 +43,9 @@ Threads don't necessarily run "at the same time" in the strictest sense (unless 
 
 - **concurrency** (Threading): CPU switches between different threads really fast, giving a falsehood of concurrency. Keypoint: only one thread is running at any given time. When one thread is running, others are blocked. You might think, how is this any useful than just running procedurally? Well, think of it as a priority queue. Threads can be scheduled. CPU scheduler can give each thread a certain amount of time to run, pause them, pass data to other threads, then give them different priorities to run at a later time. It's a must for not instant running processes that interact with each other. It's used in servers extensively: thousands of clients can request something at the same time, then getting what they requested at a later time (If done procedurally, only one client can be served at a time). Philosophy: do different things together. It doesn't reduce the total time (moot point for server, because one client doesn't care other clients' total requests).
 - **Parallelism**: threads are running parallel, usually in different CPU core, true concurrency. Keypoint: multiple threads are running at any given time. It's useful for heavy computations, super long running processes. Same thing with a fleet of single core machines, split data into sections for each machine to compute, pool them together at the end. Different machines/cores are hard to interact with each other. Philosophy: do one thing in less time.
+
+## Hyper-threading definition
+Hyper-threading is a process by which a CPU divides up its physical cores into virtual cores that are treated as if they are actually physical cores by the operating system. These virtual cores are also called threads.
 
 ## Race Conditions
 - in threads happens when multiple threads access and manipulate shared data at the same time, and the final result depends on the timing of thread execution. This leads to unpredictable and incorrect results.
@@ -66,25 +72,38 @@ arguable depends on campus : everytime philo eats you need to update his last me
 ## what is POSIX
 - Unix → The original OS (old operating system).
 - Linux → A free, Unix-like OS, Ubuntu, Fedora .. (not Unix, just was inspired by it).
-- - POSIX → Rules for making OSes behave like Unix (standards consisting of libraries, macros, system call, threading functions).
+- - POSIX C Rules for making OSes behave like Unix (standards consisting of libraries, macros, system call, threading functions).
 - - SUS (Single UNIX Specification) → A strict certification for "real Unix" systems.
-
+- GNU (linux kernel + gnu tools) → is an operating system that is free software, it consists of GNU packages (programs specifically released by the GNU Project) , is a project aiming to create a completly free operationg system
 ## Bonus Fact:
 
 - Threads are lighter than processes (faster to create/destroy).
 - Threads share code, data, and files but have independent registers and stacks.
 - the scheduler may decided to run Thread 2 first even though Thread 1 was created earlier
+- printf uses buffered output by default. Without synchronization, output can appear corrupted or missing
+-  pthread_create(&thr1, NULL, &hi, NULL);       // every thread we call have its own 'hi' function 
+-  Normal thread Termination is  function 'hi' completes execution and returns (NULL).
+- Each thread has its own stack: if you have a
+locally-allocated variable inside of some function a thread is exe-
+cuting, it is essentially private to that thread; no other thread can
+(easily) access it. To share data between threads, the values must be
+in the heap or otherwise some locale that is globally accessible.
 
-## tests to handle
-3 600 200 100
-200 120 60 60
-199 180 60 60
-3 190 60 60 . where no philo should die
-3 200 60 60 
-5 800 200 200. No philosopher should die
 
-## start simulation
+## Synchronisation tricks
+```c
+	if (ph->id % 2 == 0)
+		ft_usleep(ph->pa->eat / 10);
+```
+```c
+if (p->id & 1)
+   ft_usleep(p->par->t2e * 0.9 + 1);
+   
+# Possible delayed times are `time2eat * 0.5` or `time2eat * 0.9 + 1`, 
+# respectively waiting until the first batch is halfway through their meal,
+# or until they're 99% done with their meal  
 
+```
 
 
 #### **b. Synchronize Threads**
@@ -97,26 +116,62 @@ Create a monitoring thread to check if any philosopher has died or if all have e
 After the simulation ends, join all philosopher threads to ensure proper cleanup.
 
 
+
+
+
+
+
+
+## last meal
+
+---
+
+### **7. Handling Death**
+To handle the case where a philosopher dies, you need to monitor their `last_meal_time` and compare it to the current time. If the difference exceeds `time_to_die`, print the death message and stop the simulation.
+
+Example:
+
+```c
+if (current_time() - philo->last_meal_time > philo->infos->time_die)
+{
+    pthread_mutex_lock(&philo->infos->mutex);
+    printf("%ld %d died\n", current_time() - philo->infos->start_simulation, philo->id);
+    pthread_mutex_unlock(&philo->infos->mutex);
+    set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
+    return (NULL);
+}
 ```
 
 ---
 
-### **5. Next Steps**
-1. Implement the philosopher routine (`philosopher_routine`) to handle the "thinking," "eating," and "sleeping" states.
-2. Add a monitoring thread to check for starvation or completion.
-3. Test your program with different numbers of philosophers and meal limits to ensure correctness and avoid deadlocks.
+### **8. Summary**
+- Use `current_time()` to get the current time in milliseconds.
+- Subtract `start_simulation` to calculate the timestamp.
+- Protect `printf` statements with a mutex to avoid mixed output.
+- Monitor `last_meal_time` to detect when a philosopher dies.
 
-Let me know if you need help with any specific part!
-
-
-
+Let me know if you need further clarification or help implementing this!
 
 
 
-### **Explanation**
-- In the original code, `philos` in `main` is a local variable, and passing it to `initialize` does not allow the function to modify the pointer itself (only the memory it points to).
-- By passing `t_philo **philos` to `initialize`, you allow the function to modify the pointer in `main` by dereferencing it (`*philos`).
-- This ensures that the memory allocated for `philos` is correctly accessible in `main` and other functions.
 
-## understand
-- pthread_create(&thr1, NULL, &hi, NULL);       // every thread we call have its own 'hi' function 
+# tests
+- ./philo 4 -500 200 200	   Invalid argument
+- ./philo 30 2.25 6.51 81 2        Invalid argument
+- ./philo 30 2lsdf 60 81          Invalid argument
+- ./philo 4 0 200 200	Invalid argument (zero time).
+- ./philo 4 214748364732 200 200	Invalid argument
+
+- ./philo 3 600 200 100
+- ./philo 200 120 60 60
+- ./philo 199 180 60 60
+- ./philo 4 410 200 200	        No one dies.
+- ./philo 3 190 60 60 .         No one dies.
+- ./philo 5 800 200 200.        No one dies.       (Confirms no deadlocks in multi-philosopher )
+- ./philo 4 2147483647 200 200         No one dies.
+ 
+- ./philo 1 200 200 200	   Philosopher 1 picks one fork and dies after 200ms.
+- ./philo 5 800 200 200 7	  Simulation stops after each philosopher eats 7 times.
+- ./philo 4 310 200 200	     One philosopher dies.
+- ./philo 4 500 200 2147483647	One philosopher dies after 500 ms.
+- ./philo 4 200 210 200	        One philosopher dies; death must be printed before 210 ms.
