@@ -6,6 +6,8 @@
 - A common guideline is to have a number of threads roughly equal to the number of CPU cores for CPU-bound tasks. For I/O-bound tasks, you might have more threads, but 150 is still quite high.
 - NORE SURE: everytime philosopher eats you need to update his last meal time , in his campus people say as soon as the philo takes both forks
 
+##  Resource Hierarchy (Ordering of Resource Acquisition):
+- THIS IS MY SOLUTION TO PREVENT DEADLOCKS (odd and even)
 
 ## some ways to implement you program
 1 - odd sleep (time_to_eat / 2) (you need to make the philos sleep at the start of yr program) (when you have even number of philos 4 , it is easy cause the 1 and 3 eats, 2 and 4 sleeps vice versa)
@@ -105,55 +107,14 @@ if (p->id & 1)
 
 ```
 
+## why monitor sleeps a certain time 
+- monitor constantly checking if any philosopher has died. this can cause a problem : 
+1 - CPU Overhead – The loop runs too fast, wasting CPU cycles.
+2- Race Conditions – If the monitor checks philo->last_meal right before a philosopher updates it, it might falsely detect death even though the philosopher just ate.
 
-#### **b. Synchronize Threads**
-Ensure all threads are ready before starting the simulation. You can use a barrier or a shared flag (`all_threads_ready`) to synchronize.
-
-#### **c. Monitor Philosopher States**
-Create a monitoring thread to check if any philosopher has died or if all have eaten the required number of meals. This thread will set `end_simulation` to `true` when the simulation should stop.
-
-#### **d. Join Threads**
-After the simulation ends, join all philosopher threads to ensure proper cleanup.
-
-
-
-
-
-
-
-
-## last meal
-
----
-
-### **7. Handling Death**
-To handle the case where a philosopher dies, you need to monitor their `last_meal_time` and compare it to the current time. If the difference exceeds `time_to_die`, print the death message and stop the simulation.
-
-Example:
-
-```c
-if (current_time() - philo->last_meal_time > philo->infos->time_die)
-{
-    pthread_mutex_lock(&philo->infos->mutex);
-    printf("%ld %d died\n", current_time() - philo->infos->start_simulation, philo->id);
-    pthread_mutex_unlock(&philo->infos->mutex);
-    set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
-    return (NULL);
-}
-```
-
----
-
-### **8. Summary**
-- Use `current_time()` to get the current time in milliseconds.
-- Subtract `start_simulation` to calculate the timestamp.
-- Protect `printf` statements with a mutex to avoid mixed output.
-- Monitor `last_meal_time` to detect when a philosopher dies.
-
-Let me know if you need further clarification or help implementing this!
-
-
-
+- . Potential Downsides
+- If time_die is very small, the monitor might still miss deaths.
+- If philosophers take too long to eat, the monitor could delay detecting death.
 
 # tests
 - ./philo 4 -500 200 200	   Invalid argument
@@ -163,11 +124,12 @@ Let me know if you need further clarification or help implementing this!
 - ./philo 4 214748364732 200 200	Invalid argument
 
 - ./philo 3 600 200 100         No one dies.
-- ./philo 200 120 60 60
-- ./philo 199 180 60 60
-- ./philo 4 410 200 200	        No one dies.
-- ./philo 3 190 60 60 .         No one dies.
-- ./philo 5 800 200 200.        No one dies. 
+- ./philo 200 120 60 60        No one dies (hard test)
+- ./philo 199 180 60 60        No one dies.
+- ./philo 3 190 60 60          No one dies.
+- ./philo 5 800 200 200        No one dies. 
+- ./philo 4 410 200 200       No one dies (try 405)
+- ./philo 200 410 200 200       No one die
 - ./philo 4 2147483647 200 200         No one dies.
  
 - ./philo 1 200 200 200	   Philosopher 1 picks one fork and dies after 200ms.
@@ -175,6 +137,8 @@ Let me know if you need further clarification or help implementing this!
 - ./philo 4 310 200 200	        One philosopher dies.
 - ./philo 4 500 200 2147483647	One philosopher dies after 500 ms.
 - ./philo 4 200 210 200	        One philosopher dies; death must be printed before 210 ms.
-- ./philo 200 122 60 60        should die (mine works great)
 - ./philo 5 800 600 100         should die
-- ./philo 2 600 500 200         should die
+- ./philo 200 122 60 60        should die (mine works great)
+- ./philo 2 600 500 200         should die mmm
+- ./philo 2 310 200 100          mmm why is dies
+- WARNING : -g -fsanitize=thread may hangs your program.
