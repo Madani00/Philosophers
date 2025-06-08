@@ -168,5 +168,3 @@ if (nmb_philo == odd && (time_eat > time_sleep))
 - WARNING : -g -fsanitize=thread may hangs your program.
 
 
-
-ha im testkdfd 
