@@ -116,6 +116,30 @@ if (p->id & 1)
 - If time_die is very small, the monitor might still miss deaths.
 - If philosophers take too long to eat, the monitor could delay detecting death.
 
+# even & odd philos why die?
+## for even numbers system is fair
+./philo 4 800 200 350
+if (nmb_philo == even && (time_eat <= time_sleep))
+	time_think == 0;
+
+./philo 4 800 200 100
+if (nmb_philo == even && (time_eat > time_sleep))
+	time_think == time_eat - time_sleep;
+
+## for odd numbers system is NOT
+
+./philo 3 800 200 200
+if (nmb_philo == odd && (time_eat == time_sleep))
+	time_think == time_eat;
+
+./philo 3 800 200 300
+if (nmb_philo == odd && (time_eat < time_sleep))
+	time_think == time_eat * 2 - time_sleep;
+
+./philo 3 800 200 100
+if (nmb_philo == odd && (time_eat > time_sleep))
+	time_think == time_eat * 2 - time_sleep;
+
 # tests
 - ./philo 4 -500 200 200	   Invalid argument
 - ./philo 30 2.25 6.51 81 2        Invalid argument
