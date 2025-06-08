@@ -24,7 +24,7 @@ https://github.com/AbdallahZerfaoui/42PhilosophersHelper
 ## how OS run a thread or process on CPU?
 - handled by `context switching`, one process is switched out of CPU so another process can run.
 - OS stored the state of the currect runnig process so it can execute a later point
-- context switching is expensive 
+- context switching is expensive
 
 ## Concurrent Execution
 
@@ -38,8 +38,8 @@ Threads don't necessarily run "at the same time" in the strictest sense (unless 
 - Both can create children
 
 ## Types of Threads:
-- 1- User Level thread : 
-- 2- Kernel Level Thread : 
+- 1- User Level thread :
+- 2- Kernel Level Thread :
 
 ## concurrency & Parallelism:
 
@@ -83,7 +83,7 @@ arguable depends on campus : everytime philo eats you need to update his last me
 - Threads share code, data, and files but have independent registers and stacks.
 - the scheduler may decided to run Thread 2 first even though Thread 1 was created earlier
 - printf uses buffered output by default. Without synchronization, output can appear corrupted or missing
--  pthread_create(&thr1, NULL, &hi, NULL);       // every thread we call have its own 'hi' function 
+-  pthread_create(&thr1, NULL, &hi, NULL);       // every thread we call have its own 'hi' function
 -  Normal thread Termination is  function 'hi' completes execution and returns (NULL).
 - Each thread has its own stack: if you have a
 locally-allocated variable inside of some function a thread is exe-
@@ -100,15 +100,15 @@ in the heap or otherwise some locale that is globally accessible.
 ```c
 if (p->id & 1)
    ft_usleep(p->par->t2e * 0.9 + 1);
-   
-# Possible delayed times are `time2eat * 0.5` or `time2eat * 0.9 + 1`, 
+
+# Possible delayed times are `time2eat * 0.5` or `time2eat * 0.9 + 1`,
 # respectively waiting until the first batch is halfway through their meal,
-# or until they're 99% done with their meal  
+# or until they're 99% done with their meal
 
 ```
 
-## why monitor sleeps a certain time 
-- monitor constantly checking if any philosopher has died. this can cause a problem : 
+## why monitor sleeps a certain time
+- monitor constantly checking if any philosopher has died. this can cause a problem :
 1 - CPU Overhead – The loop runs too fast, wasting CPU cycles.
 2- Race Conditions – If the monitor checks philo->last_meal right before a philosopher updates it, it might falsely detect death even though the philosopher just ate.
 
@@ -151,11 +151,11 @@ if (nmb_philo == odd && (time_eat > time_sleep))
 - ./philo 200 120 60 60        No one dies (hard test)
 - ./philo 199 180 60 60        No one dies.
 - ./philo 3 190 60 60          No one dies.
-- ./philo 5 800 200 200        No one dies. 
+- ./philo 5 800 200 200        No one dies.
 - ./philo 4 410 200 200       No one dies (try 405)
 - ./philo 200 410 200 200       No one die
 - ./philo 4 2147483647 200 200         No one dies.
- 
+
 - ./philo 1 200 200 200	   Philosopher 1 picks one fork and dies after 200ms.
 - ./philo 5 800 200 200 7	  Simulation stops after each philosopher eats 7 times.
 - ./philo 4 310 200 200	        One philosopher dies.
@@ -166,3 +166,7 @@ if (nmb_philo == odd && (time_eat > time_sleep))
 - ./philo 2 600 500 200         should die mmm
 - ./philo 2 310 200 100          mmm why is dies
 - WARNING : -g -fsanitize=thread may hangs your program.
+
+
+
+ha im testkdfd 
