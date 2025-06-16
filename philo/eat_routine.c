@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:49:36 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/16 15:25:37 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/16 20:36:44 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	thinking(t_philo *philo)
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
 		print_state(philo, "is thinking");
-		if (philo->id % 2 != 0)
-			usleep(philo->infos->time_eat * 0.5);
+		// if (philo->id % 2 != 0)
+		// 	usleep(philo->infos->time_eat * 0.5); // time_eat 
 	}
 }
 
@@ -46,7 +46,7 @@ void	sleeping(t_philo *philo)
 
 void	eating(t_philo *philo)
 {
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 == 0)
 		usleep(1000);
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
@@ -67,8 +67,8 @@ void	eating(t_philo *philo)
 		pthread_mutex_unlock(&philo->infos->mutex);
 		if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 			exact_sleep(philo->infos, philo->infos->time_eat);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);	
+		pthread_mutex_unlock(philo->right_fork);	 // 
 	}
 }
 
