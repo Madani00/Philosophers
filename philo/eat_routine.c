@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:49:36 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/24 18:54:16 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:25:37 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void	eating(t_philo *philo)
 		usleep(1000);
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
-		// if (philo->id % 2 != 0)
-		// 	usleep(1000);
 		pthread_mutex_lock(philo->left_fork);
 		print_state(philo, "has taken a fork");
 		if (philo->infos->nmb_philo == 1)
@@ -63,8 +61,10 @@ void	eating(t_philo *philo)
 		pthread_mutex_lock(philo->right_fork);
 		print_state(philo, "has taken a fork");
 		print_state(philo, "is eating");
+		pthread_mutex_lock(&philo->infos->mutex);
 		philo->last_meal_time = current_time();
 		philo->meals_counter++;
+		pthread_mutex_unlock(&philo->infos->mutex);
 		if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 			exact_sleep(philo->infos, philo->infos->time_eat);
 		pthread_mutex_unlock(philo->left_fork);

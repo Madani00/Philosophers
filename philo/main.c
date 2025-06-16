@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/24 17:33:53 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:00:39 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exact_sleep(t_info *info, long temp)
 	start = current_time();
 	while (current_time() - start < temp)
 	{
-		if (info->end_simulation)
+		if (get_bool(&info->mutex, &info->end_simulation))
 			break ;
 		usleep(100);
 	}
