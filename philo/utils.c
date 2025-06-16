@@ -68,7 +68,6 @@ void	*monitor_routine(void *data)
 	philo = (t_philo *)data;
 	while (1)
 	{
-		usleep(philo->infos->time_die + 1);
 		i = 0;
 		all_full = true;
 		while (i < philo->infos->nmb_philo)
@@ -85,5 +84,6 @@ void	*monitor_routine(void *data)
 			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
 			return (NULL);
 		}
+		usleep(500);
 	}
 }

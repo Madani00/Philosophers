@@ -68,5 +68,6 @@ void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
 void	print_state(t_philo *philo, char *state);
 void	*monitor_routine(void *data);
 bool	check_death(t_philo *philo);
+void	exact_sleep(t_info *info, long temp);
 
 #endif

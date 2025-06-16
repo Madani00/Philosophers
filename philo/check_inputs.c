@@ -24,9 +24,9 @@ int	check_args(int ac, char **av)
 int	check_inputs(t_info *info, char **av)
 {
 	info->nmb_philo = ft_atoi(av[1]);
-	info->time_die = ft_atoi(av[2]) * 1000;
-	info->time_eat = ft_atoi(av[3]) * 1000;
-	info->time_sleep = ft_atoi(av[4]) * 1000;
+	info->time_die = ft_atoi(av[2]);
+	info->time_eat = ft_atoi(av[3]);
+	info->time_sleep = ft_atoi(av[4]);
 	info->limit_meals = -1;
 	if (av[5])
 		info->limit_meals = ft_atoi(av[5]);
@@ -63,6 +63,7 @@ void	init_philo(t_info *info, t_philo *philo)
 		philo[i].infos = info;
 		philo[i].id = i + 1;
 		philo[i].meals_counter = 0;
+		philo[i].last_meal_time = current_time();
 		init_forks(&philo[i], info->forks, i);
 		i++;
 	}

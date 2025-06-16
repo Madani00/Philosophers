@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
 RM = rm -f
 MK = make
 SRCS = main.c check_args.c check_inputs.c eat_routine.c utils.c

@@ -40,31 +40,33 @@ void	sleeping(t_philo *philo)
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
 		print_state(philo, "is sleeping");
-		usleep(philo->infos->time_sleep);
+		exact_sleep(philo->infos, philo->infos->time_sleep);
 	}
 }
 
 void	eating(t_philo *philo)
 {
+	if (philo->id % 2 != 0)
+		usleep(1000);
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
+		// if (philo->id % 2 != 0)
+		// 	usleep(1000);
 		pthread_mutex_lock(philo->left_fork);
 		print_state(philo, "has taken a fork");
-		// if (philo->infos->nmb_philo == 1)
-		// {
-		// 	pthread_mutex_unlock(philo->left_fork);
-		// 	usleep(philo->infos->time_die*2);
-		// 	return ;
-		// }
+		if (philo->infos->nmb_philo == 1)
+		{
+			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
+			pthread_mutex_unlock(philo->left_fork);
+			return ;
+		}
 		pthread_mutex_lock(philo->right_fork);
 		print_state(philo, "has taken a fork");
 		print_state(philo, "is eating");
-		pthread_mutex_lock(&philo->infos->mutex);
 		philo->last_meal_time = current_time();
 		philo->meals_counter++;
-		pthread_mutex_unlock(&philo->infos->mutex);
 		if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
-			usleep(philo->infos->time_eat);
+			exact_sleep(philo->infos, philo->infos->time_eat);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 	}

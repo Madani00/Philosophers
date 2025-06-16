@@ -12,6 +12,19 @@
 
 #include "philo.h"
 
+void	exact_sleep(t_info *info, long temp)
+{
+	long	start;
+
+	start = current_time();
+	while (current_time() - start < temp)
+	{
+		if (info->end_simulation)
+			break ;
+		usleep(100);
+	}
+}
+
 void	clean_up(t_philo *philo, t_info *info)
 {
 	int	i;
