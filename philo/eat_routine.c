@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:49:36 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/17 08:25:11 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:43:26 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,22 @@ void	print_state(t_philo *philo, char *state)
 
 void	thinking(t_philo *philo)
 {
-	long think_time;
+	//long think_time;
 	
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
 		print_state(philo, "is thinking");
 		// if (philo->id % 2 != 0)
 		// 	usleep(philo->infos->time_eat * 0.5); // time_eat 
-		if (philo->infos->nmb_philo % 2 == 1)
-		{
-			think_time = (philo->infos->time_eat * 2) - philo->infos->time_sleep;
-			if (think_time > 0)
-				usleep(think_time / 2);
-		}
+		// if (philo->infos->nmb_philo % 2 != 0)
+		// {
+		// 	if (philo->infos->time_eat == philo->infos->time_sleep)
+		// 		think_time = philo->infos->time_eat;
+		// 	else
+		// 		think_time = (philo->infos->time_eat * 2) - philo->infos->time_sleep;
+		// 	if (think_time)
+		// 		usleep(think_time);
+		// }
 	}
 }
 
@@ -52,10 +55,13 @@ void	sleeping(t_philo *philo)
 	}
 }
 
+
+
 void	eating(t_philo *philo)
 {
 	if (philo->id % 2 != 0)
-		usleep(500);
+		//usleep(500);
+		usleep(1000);
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
 		pthread_mutex_lock(philo->left_fork);
@@ -75,10 +81,10 @@ void	eating(t_philo *philo)
 		pthread_mutex_unlock(&philo->infos->mutex);
 		if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 			exact_sleep(philo->infos, philo->infos->time_eat);
+	
 		pthread_mutex_unlock(philo->left_fork);	
 		pthread_mutex_unlock(philo->right_fork);	 
 		
-		usleep(100); // added this
 	}
 }
 
@@ -92,6 +98,8 @@ void	*thread_routine(void *data)
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
+
+		usleep(1000); // added this
 	}
 	return (NULL);
 }

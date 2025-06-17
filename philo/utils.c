@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:55:33 by eamchart          #+#    #+#             */
-/*   Updated: 2025/05/24 17:41:35 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:57:55 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	*monitor_routine(void *data)
 	bool	all_full;
 
 	philo = (t_philo *)data;
+	
+	//usleep(500); // added this
 	while (1)
 	{
 		i = 0;

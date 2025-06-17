@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/16 15:00:39 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:07:34 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	exact_sleep(t_info *info, long temp)
 		usleep(100);
 	}
 }
+
 
 void	clean_up(t_philo *philo, t_info *info)
 {
