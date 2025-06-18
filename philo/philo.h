@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:35:26 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/17 20:06:15 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/18 08:25:23 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_info
 	bool			end_simulation;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	*forks;
-	//bool threads_ready;     // added this
 }	t_info;
 
 typedef struct s_philo
@@ -48,6 +47,7 @@ typedef struct s_philo
 }	t_philo;
 
 int		ft_strlen(char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 long	ft_atoi(const char *str);
 int		ft_isnum(char *str);
 int		is_space(char *str);
@@ -70,8 +70,6 @@ void	print_state(t_philo *philo, char *state);
 void	*monitor_routine(void *data);
 bool	check_death(t_philo *philo);
 void	exact_sleep(t_info *info, long temp);
-
-// void wait_all_threads(t_info *info); //
 
 
 #endif

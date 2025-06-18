@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/17 20:07:34 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:36:09 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exact_sleep(t_info *info, long temp)
 }
 
 
-void	clean_up(t_philo *philo, t_info *info)
+void	wait_destroy(t_philo *philo, t_info *info)
 {
 	int	i;
 
@@ -34,8 +34,10 @@ void	clean_up(t_philo *philo, t_info *info)
 	while (i < philo->infos->nmb_philo)
 	{
 		pthread_join(philo[i].thread_id, NULL);
+		pthread_mutex_destroy(&info->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&info->mutex);
 	free(philo);
 	free(info->forks);
 }
@@ -97,5 +99,5 @@ int	main(int ac, char **av)
 		return (1);
 	if (start_eating(philos, &infos))
 		return (1);
-	clean_up(philos, &infos);
+	wait_destroy(philos, &infos);
 }

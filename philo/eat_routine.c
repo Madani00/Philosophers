@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:49:36 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/17 20:43:26 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:25:24 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	thinking(t_philo *philo)
 		// 		usleep(think_time);
 		// }
 	}
+	usleep(1000);
 }
 
 void	sleeping(t_philo *philo)
@@ -79,12 +80,9 @@ void	eating(t_philo *philo)
 		philo->last_meal_time = current_time();
 		philo->meals_counter++;
 		pthread_mutex_unlock(&philo->infos->mutex);
-		if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
-			exact_sleep(philo->infos, philo->infos->time_eat);
-	
+		exact_sleep(philo->infos, philo->infos->time_eat);
 		pthread_mutex_unlock(philo->left_fork);	
 		pthread_mutex_unlock(philo->right_fork);	 
-		
 	}
 }
 
@@ -98,8 +96,6 @@ void	*thread_routine(void *data)
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
-
-		usleep(1000); // added this
 	}
 	return (NULL);
 }
