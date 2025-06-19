@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:49:36 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/19 12:10:56 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:31:10 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	print_state(t_philo *philo, char *state)
 
 void	thinking(t_philo *philo)
 {
-
-	
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
 		print_state(philo, "is thinking");
