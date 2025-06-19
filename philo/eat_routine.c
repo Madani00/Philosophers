@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:49:36 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/19 14:31:10 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:15:03 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	thinking(t_philo *philo)
 		print_state(philo, "is thinking");
 		usleep(philo->infos->time_think);
 	}
-	//usleep(500);
-	//usleep(1000);
 }
 
 void	sleeping(t_philo *philo)
@@ -45,12 +43,9 @@ void	sleeping(t_philo *philo)
 	}
 }
 
-
-
 void	eating(t_philo *philo)
 {
 	if (philo->id % 2 != 0)
-		//usleep(50);
 		usleep(1000);
 	if (!get_bool(&philo->infos->mutex, &philo->infos->end_simulation))
 	{
@@ -70,8 +65,8 @@ void	eating(t_philo *philo)
 		philo->meals_counter++;
 		pthread_mutex_unlock(&philo->infos->mutex);
 		exact_sleep(philo->infos, philo->infos->time_eat);
-		pthread_mutex_unlock(philo->left_fork);	
-		pthread_mutex_unlock(philo->right_fork);	 
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
 	}
 }
 
