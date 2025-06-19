@@ -2,19 +2,18 @@
 
 ## notes
 - CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=thread
+- weird : when i run my program without -fsanitize=thread it works finaly 
+- valgrind makes the philo dies , just try it a few times it will works
 - valgrind --tool=helgrind ./philo
 - A common guideline is to have a number of threads roughly equal to the number of CPU cores for CPU-bound tasks. For I/O-bound tasks, you might have more threads, but 150 is still quite high.
 - NORE SURE: everytime philosopher eats you need to update his last meal time , in his campus people say as soon as the philo takes both forks
-
+- printf("%lu\n", sizeof(pthread_mutex_t));      ==  40
 ##  Resource Hierarchy (Ordering of Resource Acquisition):
 - THIS IS MY SOLUTION TO PREVENT DEADLOCKS (odd and even)
 
-## some ways to implement you program
-1 - odd sleep (time_to_eat / 2) (you need to make the philos sleep at the start of yr program) (when you have even number of philos 4 , it is easy cause the 1 and 3 eats, 2 and 4 sleeps vice versa)
-2 - odd start taking from right fork, even start taking from left fork (to prevent deadlock )
-3 - all philosophers take from right fork, except for the last one.
-## tester
-https://github.com/AbdallahZerfaoui/42PhilosophersHelper
+## what is this project 
+Philosophers is a project about multi-threading programming, synchronisation and performance.
+
 
 ## Difference between processes and threads
 **Processes** are isolated and safer but slow to create. (process includes the resources the program needs to run, they are managed by the operation system {exp: processor registers, program counters, stack pointers , memory pages})
@@ -67,23 +66,20 @@ Thread Synchronization: Use synchronization primitives (like condition variables
 A mutex  is a synchronization primitive used to protect shared resources from simultaneous access by multiple threads. It ensures that only one thread can access a critical section at a time, preventing race conditions.
 
 
-## idk if i have to check them or NO
-./philo 4 390 200 200  (if 390 < 200 + 200 propably someone is gonna die)
-arguable depends on campus : everytime philo eats you need to update his last meal time, as soon as he takes both forks
-
 ## what is POSIX
 - Unix → The original OS (old operating system).
 - Linux → A free, Unix-like OS, Ubuntu, Fedora .. (not Unix, just was inspired by it).
 - - POSIX C Rules for making OSes behave like Unix (standards consisting of libraries, macros, system call, threading functions).
 - - SUS (Single UNIX Specification) → A strict certification for "real Unix" systems.
 - GNU (linux kernel + gnu tools) → is an operating system that is free software, it consists of GNU packages (programs specifically released by the GNU Project) , is a project aiming to create a completly free operationg system
+
 ## Bonus Fact:
 
 - Threads are lighter than processes (faster to create/destroy).
 - Threads share code, data, and files but have independent registers and stacks.
 - the scheduler may decided to run Thread 2 first even though Thread 1 was created earlier
 - printf uses buffered output by default. Without synchronization, output can appear corrupted or missing
--  pthread_create(&thr1, NULL, &hi, NULL);       // every thread we call have its own 'hi' function
+-  pthread_create(&thr1, NULL, &hi, NULL);       // every thread we call have its own 'hi' function , bc it is on stack
 -  Normal thread Termination is  function 'hi' completes execution and returns (NULL).
 - Each thread has its own stack: if you have a
 locally-allocated variable inside of some function a thread is exe-
@@ -92,20 +88,6 @@ cuting, it is essentially private to that thread; no other thread can
 in the heap or otherwise some locale that is globally accessible.
 
 
-## Synchronisation tricks
-```c
-	if (ph->id % 2 == 0)
-		ft_usleep(ph->pa->eat / 10);
-```
-```c
-if (p->id & 1)
-   ft_usleep(p->par->t2e * 0.9 + 1);
-
-# Possible delayed times are `time2eat * 0.5` or `time2eat * 0.9 + 1`,
-# respectively waiting until the first batch is halfway through their meal,
-# or until they're 99% done with their meal
-
-```
 
 ## why monitor sleeps a certain time
 - monitor constantly checking if any philosopher has died. this can cause a problem :
@@ -138,7 +120,8 @@ if (nmb_philo == odd && (time_eat < time_sleep))
 
 ./philo 3 800 200 100
 if (nmb_philo == odd && (time_eat > time_sleep))
-	time_think == time_eat * 2 - time_sleep;
+	time_think == time_eat * 2 - time_sleep;        
+
 
 # tests
 - ./philo 4 -500 200 200	   Invalid argument
@@ -146,25 +129,39 @@ if (nmb_philo == odd && (time_eat > time_sleep))
 - ./philo 30 2lsdf 60 81          Invalid argument
 - ./philo 4 0 200 200	Invalid argument (zero time).
 - ./philo 4 214748364732 200 200	Invalid argument
+- ./philo 60 130 60 60 3 | grep '55 is eating'             ha
 
-- ./philo 3 600 200 100         No one dies.
-- ./philo 200 120 60 60        No one dies (hard test)
-- ./philo 199 180 60 60        No one dies.
-- ./philo 3 190 60 60          No one dies.
-- ./philo 5 800 200 200        No one dies.
-- ./philo 4 410 200 200       No one dies (try 405)
-- ./philo 200 410 200 200       No one die
+
+- ./philo 200 120 60 60        No one dies (hard test) /  ./philo 200 125 60 60   works , also dies sometimes
+- ./philo 199 190 60 60        No one dies.
+- ./philo 3 190 60 60          No one dies. w Nadi
+- ./philo 183 190 60 60        nadi barely die, 49543 10 died
+- ./philo 4 405 200 200       No one dies. w      / ./philo 4 402 200 200   dies at this test
+- ./philo 4 410 200 200       No one dies (try 405) w
+- ./philo 200 410 200 200       No one die       // dies with usleep(500) at first , also dies with usleep(1000) but barely so it is good
+- ./philo 5 610 200 400			 No one die 
+- ./philo 3 310 100 200			 No one die (cause each philo takes 100 to eat so 300 < 310) //  
+- ./philo 3 310 200 100          dies , cause time to eats 200 , 200+200+200>310	
 - ./philo 4 2147483647 200 200         No one dies.
+- ./philo 155 190 60 120                 no one dies.    barely  21246 51 died
 
 - ./philo 1 200 200 200	   Philosopher 1 picks one fork and dies after 200ms.
 - ./philo 5 800 200 200 7	  Simulation stops after each philosopher eats 7 times.
 - ./philo 4 310 200 200	        One philosopher dies.
-- ./philo 4 500 200 2147483647	One philosopher dies after 500 ms.
-- ./philo 4 200 210 200	        One philosopher dies; death must be printed before 210 ms.
+- ./philo 4 500 200 2147483647	One philosopher dies
+- ./philo 4 200 210 200	        One philosopher dies;
 - ./philo 5 800 600 100         should die
-- ./philo 200 122 60 60        should die (mine works great)
-- ./philo 2 600 500 200         should die mmm
-- ./philo 2 310 200 100          mmm why is dies
+- ./philo 2 600 500 200         should die 
+- ./philo 2 310 200 100          should dies
+- ./philo 4 310 200 100         dies why:  200 > 100 then time_think = 200-100=100 ---> eat=200 + sleep=100 + think=100 = 400 > 310
 - WARNING : -g -fsanitize=thread may hangs your program.
+- ./philo 110 150 70 70     --> 108358 54 died 
+- in the mondatory yu dont handle the case of the 0 in the last argument, 
 
+
+-  ./philo 10 700 500 100            (retured my project) this test should die , 700/2 < 500
+-  ./philo 3 610 200 100 10           (retured my project) should not die
+--------------------
+
+- Keep in mind that on slower computers this program might operate differently and a philosopher could die when they're not supposed to.
 

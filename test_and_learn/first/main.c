@@ -118,6 +118,17 @@ void check_inputs(t_info *info, char **av)
 // 3 - // [philo_pos = 2, philo->id = 3]  // [ f, f , l=(f) , r=(f) ,f]
 // 4 - // [philo_pos = 3, philo->id = 4]  // [ f , f , f , r=(f) , l=(f)]
 // 5 - // [philo_pos = 4, philo->id = 5]  // [ r=(f) , f ,f ,f ,l=(f)]
+
+// if 3 philos
+// 1 - // [philo_pos = 0, philo->id = 1]  // [ l=(f) , r=(f) ,f]
+// 2 - // [philo_pos = 1, philo->id = 2]  // [ f , r=(f) , l=(f)]
+// 3 - // [philo_pos = 2, philo->id = 3]  // [ r=(f) , f , l=(f)]
+
+// if 4 philos
+// 1 - // [philo_pos = 0, philo->id = 1]  // [ l=(f) , r=(f) , f ,f]
+// 2 - // [philo_pos = 1, philo->id = 2]  // [ f , r=(f) , l=(f) , f , f]
+// 3 - // [philo_pos = 2, philo->id = 3]  // [ f , f , l=(f) , r=(f)]
+// 4 - // [philo_pos = 3, philo->id = 4]  // [ l=(f) , f , f , r=(f)]
 void init_forks(t_philo *philo, pthread_mutex_t *forks, int philo_pos)
 {
 	int philo_nb;

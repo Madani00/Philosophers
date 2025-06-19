@@ -7,7 +7,8 @@
 
 int *value;
 
-void *thread_func(void *arg) {
+void *thread_func(void *arg)
+{
     int x = 42;
     value = &x;
     return NULL;
