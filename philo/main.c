@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:18:08 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/18 10:36:09 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:04:34 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ void	wait_destroy(t_philo *philo, t_info *info)
 	free(info->forks);
 }
 
+void set_think_time(t_philo	* philos)
+{
+	long think_time;
+
+	think_time = 1;
+
+	if (philos->infos->nmb_philo % 2 != 0)
+		think_time = (philos->infos->time_eat * 2) - philos->infos->time_sleep;
+	philos->infos->time_think = think_time * 1000;
+	
+}
+
 t_philo	*initialize(t_info *info)
 {
 	int		i;
@@ -61,6 +73,7 @@ t_philo	*initialize(t_info *info)
 		i++;
 	}
 	init_philo(info, philos);
+	set_think_time(philos);
 	return (philos);
 }
 

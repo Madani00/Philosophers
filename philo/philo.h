@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:35:26 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/18 08:25:23 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:58:03 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_info
 	long			time_die;
 	long			time_sleep;
 	long			time_eat;
+	long			time_think; // added this
 	long			limit_meals;
 	long			start_simulation;
 	bool			end_simulation;
@@ -70,6 +71,8 @@ void	print_state(t_philo *philo, char *state);
 void	*monitor_routine(void *data);
 bool	check_death(t_philo *philo);
 void	exact_sleep(t_info *info, long temp);
+
+void set_think_time(t_philo	* philos);
 
 
 #endif

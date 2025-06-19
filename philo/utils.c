@@ -6,7 +6,7 @@
 /*   By: eamchart <eamchart@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:55:33 by eamchart          #+#    #+#             */
-/*   Updated: 2025/06/18 08:22:25 by eamchart         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:43:23 by eamchart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void	*monitor_routine(void *data)
 		while (i < philo->infos->nmb_philo)
 		{
 			if (get_long(&philo->infos->mutex, &philo[i].meals_counter)
-				< philo->infos->limit_meals && philo->infos->limit_meals > 0)
+				< philo->infos->limit_meals && philo->infos->limit_meals >= 0)
 				all_full = false;
 			if (check_death(&philo[i]))
 				return (NULL);
 			i++;
 		}
-		if (all_full && philo->infos->limit_meals > 0)
+		if (all_full && philo->infos->limit_meals >= 0)
 		{
 			set_bool(&philo->infos->mutex, &philo->infos->end_simulation, true);
 			return (NULL);
