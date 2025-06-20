@@ -1,19 +1,23 @@
 # things i learned in this project
 
 ## notes
-- CFLAGS = -Wall -Werror -Wextra -pthread -g -fsanitize=thread
 - weird : when i run my program without -fsanitize=thread it works finaly 
 - valgrind makes the philo dies , just try it a few times it will works
 - valgrind --tool=helgrind ./philo
 - A common guideline is to have a number of threads roughly equal to the number of CPU cores for CPU-bound tasks. For I/O-bound tasks, you might have more threads, but 150 is still quite high.
 - NORE SURE: everytime philosopher eats you need to update his last meal time , in his campus people say as soon as the philo takes both forks
 - printf("%lu\n", sizeof(pthread_mutex_t));      ==  40
+
+
+- monitor constantly checking if any philosopher has died. this can cause a problem :
+1 - CPU Overhead – The loop runs too fast, wasting CPU cycles.
+2- Race Conditions – If the monitor checks philo->last_meal right before a philosopher updates it, it might falsely detect death even though the philosopher just ate.
+
 ##  Resource Hierarchy (Ordering of Resource Acquisition):
 - THIS IS MY SOLUTION TO PREVENT DEADLOCKS (odd and even)
 
 ## what is this project 
 Philosophers is a project about multi-threading programming, synchronisation and performance.
-
 
 ## Difference between processes and threads
 **Processes** are isolated and safer but slow to create. (process includes the resources the program needs to run, they are managed by the operation system {exp: processor registers, program counters, stack pointers , memory pages})
@@ -28,8 +32,6 @@ Philosophers is a project about multi-threading programming, synchronisation and
 ## Concurrent Execution
 
 Threads don't necessarily run "at the same time" in the strictest sense (unless you have multiple CPU cores). Instead, the OS scheduler rapidly switches between them, giving the illusion of parallel execution.
-
-
 
 ## Similarity between Threads and Processes –
 - Only one thread or process is active at a time
@@ -54,17 +56,13 @@ Hyper-threading is a process by which a CPU divides up its physical cores into v
 - when the number is small the first thread finishes then the second one starts so nothing happend comparing a grand number
 
 ## How to Prevent Race Conditions:
-Mutexes (Mutual Exclusions): Lock the shared resource so only one thread can access it at a time.
-
-Semaphores: Control access to shared resources with counters.
-
-Atomic Operations: Ensure that the entire operation is done without interruption.
-
-Thread Synchronization: Use synchronization primitives (like condition variables) to control the execution order.
+1-Mutexes (Mutual Exclusions): Lock the shared resource so only one thread can access it at a time.
+2-Semaphores: Control access to shared resources with counters.
+3-Atomic Operations: Ensure that the entire operation is done without interruption.
+4-Thread Synchronization: Use synchronization primitives (like condition variables) to control the execution order.
 
 ## What is a mutex in C? (pthread_mutex)
 A mutex  is a synchronization primitive used to protect shared resources from simultaneous access by multiple threads. It ensures that only one thread can access a critical section at a time, preventing race conditions.
-
 
 ## what is POSIX
 - Unix → The original OS (old operating system).
@@ -161,6 +159,3 @@ if (nmb_philo == odd && (time_eat > time_sleep))
 
 -  ./philo 10 700 500 100            (retured my project) this test should die , 700/2 < 500
 -  ./philo 3 610 200 100 10           (retured my project) should not die
---------------------
-
-- Keep in mind that on slower computers this program might operate differently and a philosopher could die when they're not supposed to.
