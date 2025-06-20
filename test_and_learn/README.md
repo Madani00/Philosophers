@@ -164,4 +164,3 @@ if (nmb_philo == odd && (time_eat > time_sleep))
 --------------------
 
 - Keep in mind that on slower computers this program might operate differently and a philosopher could die when they're not supposed to.
-
