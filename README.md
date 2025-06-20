@@ -16,9 +16,8 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 
 
 
-	⚠️ Critical Testing Guidelines
+⚠️ Critical Testing Guidelines
 
-	kjdfsdkfkjs
 - Avoid -fsanitize=thread + Valgrind (--tool=helgrind)
 	- These tools slow thread creation and may falsely report philosopher deaths.
 	- Use them separately for data race/deadlock detection, but never together.
@@ -42,9 +41,27 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 
 </div>
 
+### Invalid argument tests
+```bash
+./philo 4 -500 200 200	  
+./philo 30 2.25 6.51 81 2   
+./philo 30 2lsdf 60 81 
+./philo 4 0 200 200
+./philo 4 214748364732 200 200
+```
 
-1. Data Races & Deadlocks
-bash
+### Philosopher should die tests
+```bash
+./philo 2 310 200 100        
+./philo 1 200 200 200	  
+./philo 4 310 200 200	     
+./philo 4 500 200 2147483647
+./philo 4 200 210 200	     
+./philo 5 800 600 100        
+./philo 2 600 500 200        
+./philo 2 310 200 100        
+./philo 4 310 200 100      
+```
 
 # Compile with thread sanitizer (avoid during normal runs)  
 gcc -fsanitize=thread -g *.c -o philo  
