@@ -1,4 +1,4 @@
-# Philosophers (Dining Philosophers Problem)
+# Philosophers
 A multithreading solution to the classic Dining Philosophers problem, avoiding deadlocks and data races.
 
 ---
@@ -6,6 +6,7 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ## 📌 Key Notes & Advice
 	⚠️ Critical Testing Guidelines
 
+	kjdfsdkfkjs
 - Avoid -fsanitize=thread + Valgrind (--tool=helgrind)
 	- These tools slow thread creation and may falsely report philosopher deaths.
 	- Use them separately for data race/deadlock detection, but never together.
