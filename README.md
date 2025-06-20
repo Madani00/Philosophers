@@ -53,7 +53,7 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ### Philosopher should die tests
 ```bash
 ./philo 2 310 200 100        
-./philo 1 200 200 200	  
+./philo 1 200 200 200	  # edge case
 ./philo 4 310 200 200	     
 ./philo 4 500 200 2147483647
 ./philo 4 200 210 200	     
