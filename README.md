@@ -1,9 +1,17 @@
-# Philosophers
+<div align="center">
+  # Philosophers
+</div>
+
 A multithreading solution to the classic Dining Philosophers problem, avoiding deadlocks and data races.
 
 ---
 
-## 📌 Key Notes & Advice
+<div align="center">
+  ## 📌 Key Notes & Advice
+</div>
+
+
+
 	⚠️ Critical Testing Guidelines
 
 	kjdfsdkfkjs
@@ -24,8 +32,11 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 - Debugging Hangs
     - Mutex locks/unlocks (ensure all paths release locks).
 
+<div align="center">
+  ## 🛠️ Testing
+</div>
 
-## 🛠️ Testing
+
 1. Data Races & Deadlocks
 bash
 
