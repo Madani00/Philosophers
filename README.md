@@ -15,24 +15,21 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 </div>
 
 
-
-⚠️ Critical Testing Guidelines
-
-- Avoid -fsanitize=thread + Valgrind (--tool=helgrind)
+- ### 1 Avoid -fsanitize=thread + Valgrind (--tool=helgrind)
 	- These tools slow thread creation and may falsely report philosopher deaths.
 	- Use them separately for data race/deadlock detection, but never together.
 
-- Thread Count Limits
+- ### Thread Count Limits
 	- CPU-bound tasks: Aim for threads ≈ CPU cores.
 	- I/O-bound tasks: Up to 200 philosophers (per project constraints).
 	- Do not exceed 200 philosophers (subject requirement).
 
-- Death Monitor Optimization
+- ### Death Monitor Optimization
 
 	- Add a small delay  in the death-checking loop to prevent CPU waste from tight loops.
     - Avoid false positives (checking last_meal right before it updates).
 
-- Debugging Hangs
+- ### Debugging Hangs
     - Mutex locks/unlocks (ensure all paths release locks).
 
 <div align="center">
