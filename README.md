@@ -47,7 +47,7 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ./philo 4 214748364732 200 200
 ```
 
-### No deaths (enough time to eat) tests
+### No deaths (enough time to eat)
 ```bash
 ./philo 200 130 60 60   
 ./philo 199 190 60 60     
@@ -61,7 +61,7 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ./philo 155 190 60 120    
 ```
 
-### Philosopher should die tests
+### Philosopher should die
 ```bash
 ./philo 2 310 200 100        
 ./philo 1 200 200 200	  # edge case
