@@ -1,5 +1,7 @@
 <div align="center">
-  # Philosophers
+	
+# Philosophers
+
 </div>
 
 A multithreading solution to the classic Dining Philosophers problem, avoiding deadlocks and data races.
@@ -7,7 +9,9 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ---
 
 <div align="center">
-  ## 📌 Key Notes & Advice
+
+## 📌 Key Notes & Advice
+
 </div>
 
 
@@ -33,7 +37,9 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
     - Mutex locks/unlocks (ensure all paths release locks).
 
 <div align="center">
-  ## 🛠️ Testing
+
+## 🛠️ Testing
+
 </div>
 
 
