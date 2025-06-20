@@ -58,7 +58,8 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ./philo 5 610 200 400			
 ./philo 3 310 100 200		
 ./philo 4 2147483647 200 200   
-./philo 155 190 60 120    
+./philo 155 190 60 120
+./philo 3 610 200 100
 ```
 
 ### Philosopher should die
