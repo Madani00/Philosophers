@@ -50,6 +50,20 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ./philo 4 214748364732 200 200
 ```
 
+### No deaths (enough time to eat) tests
+```bash
+./philo 200 130 60 60   
+./philo 199 190 60 60     
+./philo 3 190 60 60             
+./philo 4 405 200 200       
+./philo 4 410 200 200      
+./philo 200 410 200 200      
+./philo 5 610 200 400			
+./philo 3 310 100 200		
+./philo 4 2147483647 200 200   
+./philo 155 190 60 120    
+```
+
 ### Philosopher should die tests
 ```bash
 ./philo 2 310 200 100        
@@ -62,33 +76,3 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ./philo 2 310 200 100        
 ./philo 4 310 200 100      
 ```
-
-# Compile with thread sanitizer (avoid during normal runs)  
-gcc -fsanitize=thread -g *.c -o philo  
-
-# Run with Valgrind (separately!)  
-valgrind --tool=helgrind ./philo 5 800 200 200 7  
-
-Expected: No reported data races or deadlocks.
-2. Philosopher Death Timing
-bash
-
-# Philosopher should die after ~400ms  
-./philo 1 400 200 200  
-
-# No deaths (enough time to eat)  
-./philo 2 800 200 200 2  
-
-3. Thread Limits
-bash
-
-# Test upper limit (200 threads)  
-./philo 200 800 200 200  
-
-# Edge case: 1 philosopher (will die)  
-./philo 1 800 200 200  
-
-4. Performance Stress Test
-bash
-
-time ./philo 150 800 200 200  # Monitor CPU usage  
