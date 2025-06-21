@@ -7,7 +7,7 @@
 A multithreading solution to the classic Dining Philosophers problem, avoiding deadlocks and data races.
 
 <div align="center">
-  <img src="https://www.digikey.fi/maker-media/e8113528-f967-4389-82f2-221519a6509a" alt="42">
+  <img src="https://www.digikey.fi/maker-media/e8113528-f967-4389-82f2-221519a6509a.jpg" alt="42">
 </div>
 
 ---
