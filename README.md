@@ -17,7 +17,7 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 </div>
 
 ### 📛 Attention 📛
-- this project may not work properly as expected on slow hardware 
+- keep in mind, this project may not work properly as expected on slow hardware 
 
 ### 1. Avoid -fsanitize=thread + Valgrind (--tool=helgrind)
 	- These tools slow thread creation and may falsely report philosopher deaths.
