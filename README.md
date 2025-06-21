@@ -43,7 +43,7 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ./philo 4 -500 200 200	  
 ./philo 30 2.25 6.51 81 2   
 ./philo 30 2lsdf 60 81 
-./philo 4 0 200 200
+./philo 4 "" 200 200
 ./philo 4 214748364732 200 200
 ```
 
