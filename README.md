@@ -34,6 +34,9 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ### 4. Debugging Hangs
     - Mutex locks/unlocks (ensure all paths release locks).
 
+### 5. leaks
+    - pthread_detach returns immediately without terminating the thread (you might have leaks)
+
 <div align="center">
 
 ## 🛠️ Testing
