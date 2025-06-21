@@ -23,8 +23,8 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 
 ### 2. Thread Count Limits
 	- CPU-bound tasks: Aim for threads ≈ CPU cores.
-	- I/O-bound tasks: Up to 200 philosophers (per project constraints).
-	- Do not exceed 200 philosophers (subject requirement).
+	- more than 200 philosophers may result in undefined behavior due to system limitations or thread management,
+	- values lower than 60 ms, this can cause unexpected behavior due to the operating system's task scheduling limits.
 
 ### 3. Death Monitor Optimization
 
