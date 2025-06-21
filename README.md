@@ -6,6 +6,9 @@
 
 A multithreading solution to the classic Dining Philosophers problem, avoiding deadlocks and data races.
 
+![philo](https://github.com/user-attachments/assets/19c6ef01-a3bd-4bf6-84f5-bc82a315b3ff)
+
+
 <div align="center">
   <img src="https://www.digikey.fi/maker-media/e8113528-f967-4389-82f2-221519a6509a.jpg" alt="42">
 </div>
