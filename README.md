@@ -81,3 +81,10 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 ./philo 2 310 200 100        
 ./philo 4 310 200 100      
 ```
+
+### special test with the number of meals is 0
+```bash
+./philo 2 800 200 100 0  # handle it if you want        
+  
+```
+
