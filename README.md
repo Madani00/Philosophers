@@ -84,7 +84,7 @@ A multithreading solution to the classic Dining Philosophers problem, avoiding d
 
 ### special test with the number of meals is 0
 ```bash
-./philo 2 800 200 100 0  # handle it if you want        
+./philo 2 800 200 100 0  # handle it if you want just exit the program without printing any error message       
   
 ```
 
