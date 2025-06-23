@@ -38,7 +38,7 @@ typedef struct s_info
 
 typedef struct s_philo
 {
-	int				id;
+	int			id;
 	long			meals_counter;
 	long			last_meal_time;
 	pthread_mutex_t	*left_fork;
