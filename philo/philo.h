@@ -24,11 +24,11 @@
 
 typedef struct s_info
 {
-	int				nmb_philo;
+	int			nmb_philo;
 	long			time_die;
 	long			time_sleep;
 	long			time_eat;
-	long			time_think; // added this
+	long			time_think;
 	long			limit_meals;
 	long			start_simulation;
 	bool			end_simulation;
